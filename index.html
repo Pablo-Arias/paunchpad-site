@@ -936,15 +936,16 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
 <section class="chapter" id="lfo-mode">
   <div class="chapter-num">Chapter 12</div>
   <h2>LFO mode</h2>
-  <p class="shortcut">Open with <kbd>Shift</kbd> + <kbd>Chord</kbd> · leave with <kbd>Session</kbd> or any bottom-row button</p>
-  <p class="intro">The Custom mode's 64 pads, but each one is a slow <b>LFO</b>: a sine wave that gently moves the Live control it's linked to, around where you left it. Link a pad the same way (click a control in Live, then hold <kbd>Quantise</kbd> + pad), and play depth and rate with all the same gestures as the sliders.</p>
+  <p class="shortcut">Open with <kbd>Shift</kbd> + <kbd>Chord</kbd> · leave with <kbd>Session</kbd> or any top-row button</p>
+  <p class="intro">The Custom mode's 64 pads, but each one is a slow <b>LFO</b>: a wave (a sine, or one of seven other shapes) that gently moves the Live control it's linked to, around where you left it. Link a pad the same way (click a control in Live, then hold <kbd>Quantise</kbd> + pad), and play depth and rate with all the same gestures as the sliders.</p>
   <div class="figure">
-    <div><div id="lp-lfo"></div><div class="caption">Depth view: each pad breathes at its LFO's speed, as bright as its depth.</div></div>
+    <div><div id="lp-lfo"></div><div class="caption">Each pad in its track's colour, as bright as its depth, its light following its LFO. The bottom row picks the shape.</div></div>
     <div>
       <div class="legend-title">Two views, one tap apart</div>
       <ul class="legend">
-        <li><span class="sw" style="background:linear-gradient(90deg,#ffd60a,#ff39d4)"></span><span><b>Depth</b> (default): how far each LFO swings its control, in its track's colour. Depth 0 = off.</span></li>
-        <li><span class="sw" style="background:#ffa000"></span><span><b>Rate</b>: tap <b>Quantise</b> and the pads turn amber: now they set how fast each LFO moves, from <b>25 s</b> a cycle to <b>4 s</b>. Tap Quantise again to go back.</span></li>
+        <li><span class="sw" style="background:linear-gradient(90deg,#ffd60a,#ff39d4)"></span><span><b>Depth</b> (default): how far each LFO swings its control. Depth 0 = off. Pads are coloured as in Custom mode: the colour of the track the control sits on.</span></li>
+        <li><span class="sw" style="background:#ff9f43"></span><span><b>Rate</b>: tap <b>Quantise</b> (it lights up): now the pads set how fast each LFO moves, from <b>25 s</b> a cycle to <b>4 s</b>. Tap Quantise again to go back.</span></li>
+        <li><span class="sw" style="background:linear-gradient(90deg,#0090ff,#001a33,#0090ff)"></span><span><b>You see them move</b>: a running LFO's pad dims and brightens with its wave. A sine breathes, a square blinks.</span></li>
         <li><span class="sw" style="background:#ffffff"></span><span>Hold Quantise + a pad to <b>link</b> it; a quick tap only switches views.</span></li>
       </ul>
     </div>
@@ -960,11 +961,23 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <tr><td>Shift or Clear + pad</td><td class="wrap"><b>LFO off</b>: the control goes back to its place</td><td class="wrap">Slowest rate</td></tr>
     <tr><td>Duplicate + pad, then pads</td><td class="wrap">Copy the depth</td><td class="wrap">Copy the rate</td></tr>
   </table>
+  <h3>Shapes: the bottom row</h3>
+  <p>The eight buttons at the very bottom pick the shape of all the LFOs. The selected one is lit bright.</p>
+  <table>
+    <tr><th>Button</th><th>Shape</th></tr>
+    <tr><td>Record Arm</td><td class="wrap"><b>Sine</b> (default): smooth swells</td></tr>
+    <tr><td>Mute</td><td class="wrap"><b>Triangle</b></td></tr>
+    <tr><td>Solo / Volume</td><td class="wrap"><b>Ramp up</b> / <b>ramp down</b></td></tr>
+    <tr><td>Pan</td><td class="wrap"><b>Square</b>: flips between two places</td></tr>
+    <tr><td>Sends</td><td class="wrap"><b>Sample &amp; hold</b>: a new random place four times a cycle</td></tr>
+    <tr><td>Device</td><td class="wrap"><b>Drift</b>: glides between random places</td></tr>
+    <tr><td>Stop Clip</td><td class="wrap"><b>Random</b>: every LFO gets its own shape. Press again for new ones</td></tr>
+  </table>
   <div class="cards pairs">
     <div class="card"><h4>Always running</h4><p>The LFOs keep moving their controls whatever mode you're in: set a few slow swells, then go play the sequencers.</p></div>
     <div class="card"><h4>Around your hand</h4><p>Move a modulated knob with the mouse and the LFO swings around its new place. Closing the Set puts every control back where it was.</p></div>
   </div>
-  <div class="note"><strong>Saved with your Set</strong>Depths, rates and links are saved in the Live Set, separately from Custom mode.</div>
+  <div class="note"><strong>Saved with your Set</strong>Depths, rates, shapes and links are saved in the Live Set, separately from Custom mode.</div>
 </section>
 
 <!-- ================================================================== -->
@@ -1246,7 +1259,8 @@ launchpad('lp-note-settings', {
   launchpad('lp-lfo', {
     hex: colours,
     buttons: { top: [['o', 'Shift'], null, null, null, null, ['n', 'Chord']], right: rep(['B', ''], 8),
-      tracks: rep(['B', ''], 8), left: [['W'], ['W'], ['R', 'Clear'], ['y', 'Dup'], ['n', 'Quant']] },
+      tracks: rep(['B', ''], 8), left: [['W'], ['W'], ['R', 'Clear'], ['y', 'Dup'], ['n', 'Quant']],
+      bottom: [['l', 'Sine'], ['B', 'Tri'], ['G', 'Up'], ['M', 'Down'], ['Y', 'Sqr'], ['O', 'S&H'], ['P', 'Drift'], ['R', 'Rand']] },
   });
 })();
 
