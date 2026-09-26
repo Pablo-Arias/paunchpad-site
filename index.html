@@ -358,7 +358,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <div class="eyebrow">For Ableton Live 12 · Launchpad Pro MK3</div>
     <h1>Paunchpad: <span>in-depth Ableton controller scripts, tailored for live performance.</span></h1>
     <p class="byline">Built by <b>Pablo Arias Sarah</b> · made for <b>Ableton Live</b></p>
-    <p class="lead">Paunchpad is an Ableton Live remote script for the Launchpad Pro MK3. It takes over every pad and light, and turns the Launchpad into the controller you design. You get Session mode, velocity-sensitive faders, drum and melodic sequencers, Note mode and a Custom mode of 64 slider pads. <b>You choose which button opens what</b>: up to ten modes on the five top-row buttons, each pressed or with Shift. Everything is saved with your Live Set. It's more than 5,000 lines of Python, tested by over 700 automated checks.</p>
+    <p class="lead">Paunchpad is an Ableton Live remote script for the Launchpad Pro MK3. It takes over every pad and light, and turns the Launchpad into the controller you design. You get Session mode, velocity-sensitive faders, drum and melodic sequencers, Note mode, a Custom mode of 64 slider pads and an LFO mode of 64 slow LFOs. <b>You choose which button opens what</b>: up to ten modes on the five top-row buttons, each pressed or with Shift. Everything is saved with your Live Set. It's almost 6,000 lines of Python, tested by nearly 800 automated checks.</p>
     <p class="byline" style="margin:-8px 0 22px">Tested with Ableton Live 12.4.6 Suite · macOS 26.6 · Launchpad Pro MK3 · <a href="#tested">details</a></p>
     <div class="chips">
       <span class="chip"><i style="background:#35d45a"></i>Session &amp; faders</span>
@@ -537,6 +537,11 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     </li>
     <li><b>Choose the start tracks</b> in <code>START_TRACKS</code> (1 = the first track in your Set). Selecting another track while a sequencer is shown still moves it, and the choice is saved in your Live Set.
 <pre class="config"><span class="k">START_TRACKS</span> = {<span class="s">'drum A'</span>: 1, <span class="s">'drum B'</span>: 2, <span class="s">'melodic A'</span>: 3, <span class="s">'melodic B'</span>: 4, <span class="s">'melodic C'</span>: 5}</pre>
+    </li>
+    <li><b>Tune LFO mode's swings</b> (at full depth; half depth swings half as far): volumes and sends in dB with a ceiling, every other control in % of its value.
+<pre class="config"><span class="k">LFO_DB_SWING</span> = <span class="n">10</span>         <span class="c"># volumes and sends: dB below and above the fader</span>
+<span class="k">LFO_DB_CEILING</span> = <span class="n">-10</span>      <span class="c"># dB, the loudest an LFO makes a volume or send</span>
+<span class="k">LFO_SWING_PERCENT</span> = <span class="n">15</span>    <span class="c"># every other control: % of its value, below and above</span></pre>
     </li>
     <li><b>Save, then reload the script:</b> in Live, <b>Settings → Link, Tempo &amp; MIDI</b>, set Control Surface to <b>None</b>, then back to <b>Paunchpad</b>.</li>
   </ol>
@@ -907,6 +912,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
       <p style="font-size:15px;color:var(--muted)">Pads keep their exact colour and only get brighter or dimmer with the value.</p>
     </div>
   </div>
+  <div class="note"><strong>Play it with an LFO too</strong>Link the same control to a pad in <a href="#lfo-mode">LFO mode</a>: this pad then moves the place the LFO swings around. Ableton's own MIDI mapping allows one mapping per parameter; Paunchpad sets values directly, so a control can have as many pads as you like.</div>
   <div class="note" style="border-color:var(--accent-2);background:rgba(123,97,255,.08)"><strong>One page for now, dozens to come</strong>For now Custom mode has a single page: the 64 slider pads described here. It's built to grow: each page keeps its own values and links, so more custom pages can be added, up to dozens of custom modes, each with its own layout and purpose.</div>
   <h3>Moving values</h3>
   <table>
@@ -960,6 +966,8 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <tr><td>Hold ▲ / ▼</td><td class="wrap">The selected row deeper / shallower</td><td class="wrap">The selected row faster / slower</td></tr>
     <tr><td>Shift or Clear + pad</td><td class="wrap"><b>LFO off</b>: the control goes back to its place</td><td class="wrap">Slowest rate</td></tr>
     <tr><td>Duplicate + pad, then pads</td><td class="wrap">Copy the depth</td><td class="wrap">Copy the rate</td></tr>
+    <tr><td>Hold Quantise + pad</td><td class="wrap" colspan="2">Link the pad to the control clicked last in Live (again: unlink)</td></tr>
+    <tr><td>Hold Duplicate + tap Quantise</td><td class="wrap" colspan="2">Link every pad to the control its pad has in Custom mode</td></tr>
   </table>
   <h3>Shapes: the bottom row</h3>
   <p>The eight buttons at the very bottom pick the shape of all the LFOs. The selected one is lit bright.</p>
@@ -1010,6 +1018,8 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <tr><td class="wrap">The Launchpad is dark or doesn't respond</td><td class="wrap">Input and output must be the <b>LPProMK3 MIDI</b> port, not DAW.</td></tr>
     <tr><td class="wrap">Drum pads or repeats are silent</td><td class="wrap">Turn on Track ✔ for the LPProMK3 MIDI input. The drum track needs an instrument, its input on All Ins, and Monitor on Auto.</td></tr>
     <tr><td class="wrap">Orange pads play once but don't repeat</td><td class="wrap">Reload the script to get the current version.</td></tr>
+    <tr><td class="wrap">An LFO pad doesn't move its control</td><td class="wrap">Link it (hold Quantise + pad) and give it some depth: pads at depth 0 are still.</td></tr>
+    <tr><td class="wrap">Live's undo list fills up, or automation fights an LFO</td><td class="wrap">The LFOs move their controls continuously. Turn the LFO off (Shift + pad) on a control with recorded automation.</td></tr>
     <tr><td class="wrap">A change to the script doesn't show up</td><td class="wrap">Set Control Surface to <b>None</b>, then back to <b>Paunchpad</b>.</td></tr>
   </table>
   <div class="note"><strong>Checking what's running</strong>Paunchpad writes to Live's log, <code>~/Library/Preferences/Ableton/Live 12.x/Log.txt</code>. Search for <code>Paunchpad: loaded</code> to see which version is running.</div>
