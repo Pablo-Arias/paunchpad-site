@@ -334,6 +334,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <li><a href="#melodic">Melodic sequencer</a></li>
     <li><a href="#note-mode">Note mode</a></li>
     <li><a href="#custom-mode">Custom mode</a></li>
+    <li><a href="#lfo-mode">LFO mode</a></li>
     <li><a href="#tracks">Tracks, clips &amp; saving</a></li>
     <li><a href="#troubleshooting">Troubleshooting</a></li>
     <li><a href="#about">About the creator</a></li>
@@ -522,7 +523,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <span class="s">'Shift + Note'</span>:      <span class="s">'note mode'</span>,     <span class="c"># Shift + Note: Note mode</span>
 
     <span class="s">'Chord'</span>:             <span class="s">'drum B'</span>,        <span class="c"># Chord: drum sequencer B</span>
-    <span class="s">'Shift + Chord'</span>:     <span class="n">None</span>,            <span class="c"># Shift + Chord: nothing</span>
+    <span class="s">'Shift + Chord'</span>:     <span class="s">'lfo mode'</span>,      <span class="c"># Shift + Chord: LFO mode</span>
 
     <span class="s">'Custom'</span>:            <span class="s">'melodic A'</span>,     <span class="c"># Custom: melodic sequencer A</span>
     <span class="s">'Shift + Custom'</span>:    <span class="s">'custom mode'</span>,   <span class="c"># Shift + Custom: Custom mode</span>
@@ -546,6 +547,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <tr><td><code>'melodic A'</code>, <code>'melodic B'</code>, <code>'melodic C'</code></td><td class="wrap">A <a href="#melodic">melodic sequencer</a></td></tr>
     <tr><td><code>'note mode'</code></td><td class="wrap"><a href="#note-mode">Note mode</a>. Pressing its button again opens its settings</td></tr>
     <tr><td><code>'custom mode'</code></td><td class="wrap"><a href="#custom-mode">Custom mode</a></td></tr>
+    <tr><td><code>'lfo mode'</code></td><td class="wrap"><a href="#lfo-mode">LFO mode</a></td></tr>
     <tr><td><code>None</code></td><td class="wrap">Nothing</td></tr>
     <tr><td><code>'drum C'</code>, <code>'melodic D'</code>, <code>'melodic bass'</code>…</td><td class="wrap">A <b>new</b> sequencer: any name after <code>drum</code> or <code>melodic</code> creates one, with its own track, pattern and view</td></tr>
   </table>
@@ -589,12 +591,12 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     </div>
   </div>
   <h3>The mode buttons</h3>
-  <p>Each top-row button opens a mode. Holding <kbd>Shift</kbd> while you press Note or Custom opens a second mode on the same button. <b>Session</b> always takes you back to the clips. This is the <b>default layout</b>: you can put any mode on any button (<a href="#customise">chapter 4</a>).</p>
+  <p>Each top-row button opens a mode. Holding <kbd>Shift</kbd> while you press Note, Chord or Custom opens a second mode on the same button. <b>Session</b> always takes you back to the clips. This is the <b>default layout</b>: you can put any mode on any button (<a href="#customise">chapter 4</a>).</p>
   <table>
     <tr><th>Button</th><th>Press</th><th>Shift + press</th></tr>
     <tr><td>Session</td><td class="wrap">Clips (hold: overview)</td><td class="wrap">–</td></tr>
     <tr><td>Note</td><td class="wrap">Drum sequencer A</td><td class="wrap"><a href="#note-mode">Note mode</a> (the button turns purple); again: its settings</td></tr>
-    <tr><td>Chord</td><td class="wrap">Drum sequencer B</td><td class="wrap">–</td></tr>
+    <tr><td>Chord</td><td class="wrap">Drum sequencer B</td><td class="wrap"><a href="#lfo-mode">LFO mode</a> (the button turns amber)</td></tr>
     <tr><td>Custom</td><td class="wrap">Melodic sequencer A</td><td class="wrap"><a href="#custom-mode">Custom mode</a> (the button turns blue)</td></tr>
     <tr><td>Sequencer</td><td class="wrap">Melodic sequencer B</td><td class="wrap">–</td></tr>
     <tr><td>Projects</td><td class="wrap">Melodic sequencer C</td><td class="wrap">–</td></tr>
@@ -931,8 +933,43 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
 </section>
 
 <!-- ================================================================== -->
-<section class="chapter" id="tracks">
+<section class="chapter" id="lfo-mode">
   <div class="chapter-num">Chapter 12</div>
+  <h2>LFO mode</h2>
+  <p class="shortcut">Open with <kbd>Shift</kbd> + <kbd>Chord</kbd> · leave with <kbd>Session</kbd> or any bottom-row button</p>
+  <p class="intro">The Custom mode's 64 pads, but each one is a slow <b>LFO</b>: a sine wave that gently moves the Live control it's linked to, around where you left it. Link a pad the same way (click a control in Live, then hold <kbd>Quantise</kbd> + pad), and play depth and rate with all the same gestures as the sliders.</p>
+  <div class="figure">
+    <div><div id="lp-lfo"></div><div class="caption">Depth view: each pad breathes at its LFO's speed, as bright as its depth.</div></div>
+    <div>
+      <div class="legend-title">Two views, one tap apart</div>
+      <ul class="legend">
+        <li><span class="sw" style="background:linear-gradient(90deg,#ffd60a,#ff39d4)"></span><span><b>Depth</b> (default): how far each LFO swings its control, in its track's colour. Depth 0 = off.</span></li>
+        <li><span class="sw" style="background:#ffa000"></span><span><b>Rate</b>: tap <b>Quantise</b> and the pads turn amber: now they set how fast each LFO moves, from <b>25 s</b> a cycle to <b>4 s</b>. Tap Quantise again to go back.</span></li>
+        <li><span class="sw" style="background:#ffffff"></span><span>Hold Quantise + a pad to <b>link</b> it; a quick tap only switches views.</span></li>
+      </ul>
+    </div>
+  </div>
+  <h3>Everything you know from Custom mode</h3>
+  <p>In either view, the gestures work exactly as with the sliders, on depth or on rate:</p>
+  <table>
+    <tr><th>Action</th><th>Depth view</th><th>Rate view</th></tr>
+    <tr><td>Hold a pad</td><td class="wrap">More depth, faster the harder you hit</td><td class="wrap">Faster LFO; Live shows its period in seconds</td></tr>
+    <tr><td>Hold a scene button / a button below the pads</td><td class="wrap">That row / column deeper</td><td class="wrap">That row / column faster</td></tr>
+    <tr><td>Shift + hold / tap them</td><td class="wrap">Shallower / off</td><td class="wrap">Slower / slowest</td></tr>
+    <tr><td>Hold ▲ / ▼</td><td class="wrap">The selected row deeper / shallower</td><td class="wrap">The selected row faster / slower</td></tr>
+    <tr><td>Shift or Clear + pad</td><td class="wrap"><b>LFO off</b>: the control goes back to its place</td><td class="wrap">Slowest rate</td></tr>
+    <tr><td>Duplicate + pad, then pads</td><td class="wrap">Copy the depth</td><td class="wrap">Copy the rate</td></tr>
+  </table>
+  <div class="cards pairs">
+    <div class="card"><h4>Always running</h4><p>The LFOs keep moving their controls whatever mode you're in: set a few slow swells, then go play the sequencers.</p></div>
+    <div class="card"><h4>Around your hand</h4><p>Move a modulated knob with the mouse and the LFO swings around its new place. Closing the Set puts every control back where it was.</p></div>
+  </div>
+  <div class="note"><strong>Saved with your Set</strong>Depths, rates and links are saved in the Live Set, separately from Custom mode.</div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="tracks">
+  <div class="chapter-num">Chapter 13</div>
   <h2>Tracks, clips &amp; saving</h2>
   <p class="intro">Each of the five sequencers keeps its own track, so you can have drums and melodies on the go and switch between them freely.</p>
   <div class="cards pairs">
@@ -945,7 +982,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
 
 <!-- ================================================================== -->
 <section class="chapter" id="troubleshooting">
-  <div class="chapter-num">Chapter 13</div>
+  <div class="chapter-num">Chapter 14</div>
   <h2>Troubleshooting</h2>
   <table>
     <tr><th>Symptom</th><th>What to do</th></tr>
@@ -959,7 +996,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
 
 <!-- ================================================================== -->
 <section class="chapter" id="about">
-  <div class="chapter-num">Chapter 14</div>
+  <div class="chapter-num">Chapter 15</div>
   <h2>About the creator</h2>
   <p class="intro">Paunchpad was built by <b>Pablo Arias Sarah</b>, a music maker, researcher and techno producer based in Grenoble, France.</p>
   <p><b>Music.</b> I used to make and play music as <b>Mlle de Salignac</b>: analog techno, improvised live on machines, on an original Launchpad running the Launchpad95 scripts. It came out on <b>ARTR</b>, my independent record label in Paris, which released music and filmed live sets: my first EP, <i>Foreword</i>, was ARTR01, and my second, <i>Childhood</i>, ARTR02. We stopped ARTR many years ago, and I took a break from music. <b>Now I'm coming back</b>, and Paunchpad is part of that comeback: the instrument I wanted for playing live again.</p>
@@ -1187,6 +1224,28 @@ launchpad('lp-note-settings', {
   launchpad('lp-custom', {
     hex: colours,
     buttons: { top: [['o', 'Shift'], null, null, null, null, null, ['b', 'Custom']], right: rep(['B', ''], 8),
+      tracks: rep(['B', ''], 8), left: [['W'], ['W'], ['R', 'Clear'], ['y', 'Dup'], ['n', 'Quant']] },
+  });
+})();
+
+// LFO mode: pads in their track colours, brightness = depth, captured mid-breath
+(function () {
+  const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const scale = (h, v) => 'rgb(' + rgb(h).map(x => Math.round(x * v)).join(',') + ')';
+  const colours = [];
+  for (let r = 0; r < 8; r++) {
+    const row = [];
+    for (let c = 0; c < 8; c++) {
+      const depth = [0, .3, .6, .9, .5, .2, .8, .4][(r * 3 + c * 5) % 8];
+      const phase = Math.sin((r * 0.7 + c * 1.3));
+      const base = r < 3 ? '#ffd60a' : r < 5 ? '#ff39d4' : '#0090ff';
+      row.push(depth ? scale(base, 0.08 + 0.92 * depth * (0.78 + 0.22 * phase)) : scale(base, 0.08));
+    }
+    colours.push(row);
+  }
+  launchpad('lp-lfo', {
+    hex: colours,
+    buttons: { top: [['o', 'Shift'], null, null, null, null, ['n', 'Chord']], right: rep(['B', ''], 8),
       tracks: rep(['B', ''], 8), left: [['W'], ['W'], ['R', 'Clear'], ['y', 'Dup'], ['n', 'Quant']] },
   });
 })();
