@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paunchpad User Guide</title>
+<meta name="description" content="User guide for Paunchpad, an Ableton Live 12 remote script for the Novation Launchpad Pro MK3.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --surface-2: #efeee9;
+  --text: #1a1a1f;
+  --muted: #5d5d68;
+  --line: #e2e0d9;
+  --accent: #ff5a1f;
+  --accent-2: #7b61ff;
+  --accent-soft: #fff0e8;
+  --tip-bg: #eef6ff;
+  --tip-line: #2f6bff;
+  --warn-bg: #fff6e0;
+  --warn-line: #e6a100;
+  --code-bg: #f0efea;
+  --shadow: 0 1px 2px rgba(20, 20, 30, .06), 0 8px 24px rgba(20, 20, 30, .06);
+  --device: #232327;
+  --device-edge: #34343a;
+  --button: #3b3b42;
+  --button-text: #c9c9d1;
+  --pad-off: #2c2c31;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e0e11;
+    --surface: #16161b;
+    --surface-2: #1d1d23;
+    --text: #ececf1;
+    --muted: #a0a0ad;
+    --line: #2a2a32;
+    --accent-soft: #2a1a12;
+    --tip-bg: #121c2e;
+    --warn-bg: #2a220e;
+    --code-bg: #1f1f26;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
+    --device: #1b1b1f;
+    --device-edge: #2e2e35;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e0e11; --surface: #16161b; --surface-2: #1d1d23; --text: #ececf1; --muted: #a0a0ad;
+  --line: #2a2a32; --accent-soft: #2a1a12; --tip-bg: #121c2e; --warn-bg: #2a220e; --code-bg: #1f1f26;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35); --device: #1b1b1f; --device-edge: #2e2e35;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.65 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, kbd { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-size: .86em; }
+code { background: var(--code-bg); padding: .1em .35em; border-radius: 5px; overflow-wrap: anywhere; }
+kbd {
+  display: inline-block; padding: .05em .45em; border: 1px solid var(--line); border-bottom-width: 2px;
+  border-radius: 6px; background: var(--surface); font-weight: 500; white-space: nowrap;
+}
+
+/* ---- Layout ---------------------------------------------------------- */
+.layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); min-height: 100vh; }
+nav.side {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 28px 18px 40px;
+  border-right: 1px solid var(--line); background: var(--surface);
+}
+.brand { display: flex; align-items: center; gap: 10px; margin: 0 6px 26px; }
+.brand-mark {
+  width: 34px; height: 34px; border-radius: 9px; display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 3px; padding: 5px; background: var(--device);
+}
+.brand-mark i { border-radius: 2px; }
+.brand-name { font-weight: 800; font-size: 19px; letter-spacing: -.02em; }
+.brand-sub { font-size: 12px; color: var(--muted); margin-top: -3px; }
+nav.side ol { list-style: none; margin: 0; padding: 0; counter-reset: ch; }
+nav.side li a {
+  display: flex; gap: 10px; align-items: baseline; padding: 7px 10px; border-radius: 8px;
+  color: var(--muted); font-size: 14.5px; font-weight: 500;
+}
+nav.side li a::before {
+  counter-increment: ch; content: counter(ch); font-variant-numeric: tabular-nums;
+  font-size: 12px; font-weight: 700; color: var(--muted); opacity: .7; min-width: 16px;
+}
+nav.side li a:hover { background: var(--surface-2); text-decoration: none; color: var(--text); }
+nav.side li a.active { background: var(--accent-soft); color: var(--accent); }
+nav.side li a.active::before { color: var(--accent); opacity: 1; }
+.theme-toggle {
+  margin: 26px 10px 0; font: inherit; font-size: 13px; color: var(--muted); background: none;
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; cursor: pointer;
+}
+
+main { padding: 0 56px 120px; max-width: 1040px; }
+.menu-button { display: none; }
+
+/* ---- Hero ------------------------------------------------------------- */
+.hero {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; align-items: center;
+  padding: 64px 0 56px; border-bottom: 1px solid var(--line);
+}
+.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.hero h1 { font-size: 44px; line-height: 1.08; letter-spacing: -.03em; margin: 12px 0 18px; font-weight: 800; }
+.hero h1 span {
+  background: linear-gradient(90deg, var(--accent), #ff2d87 55%, var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero p.lead { font-size: 19px; color: var(--muted); margin: 0 0 26px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line); font-size: 13.5px; font-weight: 500;
+}
+.chip i { width: 9px; height: 9px; border-radius: 3px; }
+
+/* ---- Chapters --------------------------------------------------------- */
+section.chapter { padding: 64px 0 8px; border-bottom: 1px solid var(--line); }
+.chapter-num { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+h2 { font-size: 34px; letter-spacing: -.025em; line-height: 1.15; margin: 6px 0 14px; font-weight: 800; }
+h3 { font-size: 21px; letter-spacing: -.01em; margin: 40px 0 10px; font-weight: 700; }
+h4 { font-size: 16px; margin: 26px 0 6px; font-weight: 700; }
+p.intro { font-size: 18px; color: var(--muted); max-width: 720px; margin-top: 0; }
+.shortcut { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); margin: 0 0 18px; }
+
+.figure {
+  display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 36px; align-items: start;
+  margin: 28px 0 8px; padding: 28px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 18px; box-shadow: var(--shadow);
+}
+.figure.single { grid-template-columns: minmax(0, 420px); justify-content: center; }
+.figure .caption { font-size: 14px; color: var(--muted); margin-top: 10px; text-align: center; }
+.legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.legend li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; font-size: 15px; }
+.legend .sw { width: 22px; height: 22px; border-radius: 6px; margin-top: 1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.14), inset 0 0 0 1px var(--line); }
+.legend b { font-weight: 600; }
+.legend-title { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin: 24px 0; }
+.cards.pairs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px;
+  box-shadow: var(--shadow);
+}
+.card h4 { margin: 10px 0 4px; }
+.card p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.card .dot { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-size: 16px; }
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0 22px; font-size: 15px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); font-weight: 700; }
+tr:last-child td { border-bottom: none; }
+td:first-child { font-weight: 600; white-space: nowrap; }
+td.wrap { white-space: normal; }
+
+.note {
+  border-left: 3px solid var(--tip-line); background: var(--tip-bg); padding: 12px 16px; border-radius: 0 10px 10px 0;
+  margin: 18px 0; font-size: 15px;
+}
+.note.warn { border-color: var(--warn-line); background: var(--warn-bg); }
+.note strong:first-child { display: block; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
+ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 18px 0; }
+ol.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 48px; }
+ol.steps > li::before {
+  content: counter(s); position: absolute; left: 0; top: -2px; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--accent); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: 15px;
+}
+ul.clean { padding-left: 20px; }
+ul.clean li { margin: 6px 0; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* ---- Launchpad illustration -------------------------------------------- */
+.lp {
+  --gap: 5px;
+  display: grid; grid-template-columns: repeat(10, 1fr); gap: var(--gap); padding: 16px;
+  background: var(--device); border-radius: 18px; border: 1px solid var(--device-edge);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 18px 40px rgba(0,0,0,.25);
+  aspect-ratio: 10 / 11; width: 100%; max-width: 420px; margin: 0 auto;
+  font-family: Inter, sans-serif; user-select: none;
+}
+.lp .cell { position: relative; border-radius: 5px; }
+.lp .pad {
+  background: var(--pad-off); border-radius: 5px;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.25);
+  display: grid; place-items: center; font-size: clamp(7px, 1.6vw, 10px); font-weight: 700; color: rgba(255,255,255,.42);
+  transition: transform .08s;
+}
+.lp .pad.lit { box-shadow: 0 0 12px -2px var(--glow), inset 0 -2px 0 rgba(0,0,0,.18); }
+.lp .pad.dimlabel { color: rgba(255,255,255,.8); }
+.lp .pad.darklabel { color: rgba(0,0,0,.6); }
+.lp .btn {
+  background: var(--button); border-radius: 50%; transform: scale(.78);
+  display: grid; place-items: center; text-align: center; line-height: 1.05;
+  font-size: clamp(5.5px, 1.25vw, 8px); font-weight: 600; color: var(--button-text); letter-spacing: -.01em;
+  overflow: hidden; padding: 1px;
+}
+.lp .btn.square { border-radius: 6px; }
+.lp .btn.lit { color: #111; box-shadow: 0 0 10px -2px var(--glow); }
+.lp .btn.ring { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lp .pad.ring { outline: 2px solid #fff; outline-offset: 1px; }
+.lp .empty { background: transparent; }
+.lp .pad[title], .lp .btn[title] { cursor: help; }
+
+.zones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 18px 0; }
+.zone { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.zone h4 { margin: 0 0 4px; display: flex; align-items: center; gap: 8px; }
+.zone h4 i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.zone p { margin: 0; font-size: 14.5px; color: var(--muted); }
+
+footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+.creator { display: flex; align-items: center; gap: 14px; margin-top: 22px; padding: 14px 16px; border-radius: 14px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); max-width: 520px; }
+.creator .avatar { width: 44px; height: 44px; border-radius: 50%; flex: none; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--accent), #ff2d87 55%, var(--accent-2)); color: #fff; font-weight: 800; font-size: 15px; }
+.creator .label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.creator .name { font-weight: 700; font-size: 15px; }
+.creator .desc { font-size: 13.5px; color: var(--muted); }
+.creator a.more { margin-left: auto; font-size: 13.5px; font-weight: 600; white-space: nowrap; }
+.about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin: 22px 0; }
+.about .card h4 { margin: 0 0 10px; font-size: 17px; }
+.links { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.links a { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; background: var(--surface-2); color: var(--text); font-weight: 600; font-size: 14.5px; }
+.links a:hover { text-decoration: none; filter: brightness(.97); }
+.links a small { color: var(--muted); font-weight: 500; margin-left: auto; }
+.links i { width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; color: #fff; font-style: normal; font-size: 13px; font-weight: 800; flex: none; }
+@media (max-width: 980px) { .about { grid-template-columns: 1fr; } }
+.music { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; align-items: center;
+  margin: 26px 0; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+.video { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; }
+.video img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+.video:hover img { transform: scale(1.03); }
+.video .play { position: absolute; inset: 0; display: grid; place-items: center; }
+.video .play span { width: 68px; height: 48px; border-radius: 14px; background: #ff0033; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
+.video .play span::before { content: ''; border-left: 18px solid #fff; border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px; }
+.music h4 { margin: 0 0 6px; font-size: 18px; }
+.music p { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
+.yt-button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 10px; background: #ff0033; color: #fff; font-weight: 700; font-size: 15px; }
+.yt-button:hover { text-decoration: none; filter: brightness(1.08); }
+@media (max-width: 980px) { .music { grid-template-columns: 1fr; } }
+.story { font-size: 17px; border-left: 3px solid var(--accent-2); padding: 4px 0 4px 18px; margin: 22px 0; color: var(--text); }
+.story p { margin: 0 0 10px; }
+.story .who { font-size: 14px; color: var(--muted); margin: 0; }
+.vs { display: grid; gap: 14px; margin: 24px 0; }
+.vs-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+.vs-row > div { padding: 16px 18px; }
+.vs-row h4 { margin: 0 0 6px; font-size: 15.5px; }
+.vs-row p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.vs-before { background: var(--surface-2); }
+.vs-before .tag, .vs-after .tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+.vs-before .tag { color: var(--muted); } .vs-after .tag { color: var(--accent); }
+@media (max-width: 980px) { .vs-row { grid-template-columns: 1fr; } }
+pre.config {
+  background: #16161b; color: #e8e8ee; border-radius: 14px; padding: 18px 20px; overflow-x: auto;
+  font: 13.5px/1.6 "JetBrains Mono", ui-monospace, Menlo, monospace; margin: 14px 0 22px; border: 1px solid var(--device-edge);
+}
+pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .k { color: #6ec6ff; } pre.config .n { color: #b04dff; }
+.byline { margin: -8px 0 22px; font-size: 15px; color: var(--muted); }
+.byline b { color: var(--text); }
+.donate {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center;
+  margin: 26px 0 30px; padding: 26px 28px; border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 90, 31, .12), rgba(255, 45, 135, .10) 50%, rgba(123, 97, 255, .12));
+  border: 1px solid rgba(255, 90, 31, .35);
+}
+.donate h3 { margin: 0 0 8px; font-size: 22px; }
+.donate p { margin: 0 0 8px; font-size: 16px; }
+.donate p:last-child { margin-bottom: 0; }
+.donate-button {
+  display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 12px;
+  background: linear-gradient(90deg, var(--accent), #ff2d87); color: #fff; font-weight: 700; font-size: 16px;
+  white-space: nowrap; box-shadow: 0 8px 22px rgba(255, 60, 90, .3);
+}
+.donate-button:hover { text-decoration: none; filter: brightness(1.06); }
+@media (max-width: 980px) { .donate { grid-template-columns: 1fr; } }
+
+/* ---- Small screens ------------------------------------------------------ */
+@media (max-width: 980px) {
+  .layout { grid-template-columns: 1fr; }
+  nav.side { position: fixed; inset: 0 auto 0 0; width: 280px; z-index: 20; transform: translateX(-100%); transition: transform .2s; box-shadow: var(--shadow); }
+  nav.side.open { transform: none; }
+  .menu-button {
+    display: inline-flex; position: fixed; top: 12px; right: 12px; z-index: 30; gap: 6px; align-items: center;
+    font: inherit; font-size: 14px; font-weight: 600; padding: 8px 12px; border-radius: 10px;
+    background: var(--surface); color: var(--text); border: 1px solid var(--line); box-shadow: var(--shadow);
+  }
+  main { padding: 0 16px 80px; }
+  .hero { grid-template-columns: 1fr; padding-top: 56px; gap: 28px; }
+  .hero h1 { font-size: 34px; }
+  .figure { grid-template-columns: 1fr; padding: 18px; }
+  .two, .zones, .cards.pairs { grid-template-columns: 1fr; }
+  td:first-child { white-space: normal; }
+  table { display: block; overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+<button class="menu-button" id="menuButton" aria-label="Open the chapter list">☰ Chapters</button>
+<div class="layout">
+<nav class="side" id="side">
+  <div class="brand">
+    <div class="brand-mark" id="brandMark"></div>
+    <div><div class="brand-name">Paunchpad</div><div class="brand-sub">for Ableton Live · User Guide</div></div>
+  </div>
+  <ol>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#why">Why Paunchpad</a></li>
+    <li><a href="#getting-started">Getting started</a></li>
+    <li><a href="#customise">Make it yours</a></li>
+    <li><a href="#at-a-glance">The Launchpad at a glance</a></li>
+    <li><a href="#session">Session mode</a></li>
+    <li><a href="#faders">Faders</a></li>
+    <li><a href="#drum">Drum sequencer</a></li>
+    <li><a href="#melodic">Melodic sequencer</a></li>
+    <li><a href="#note-mode">Note mode</a></li>
+    <li><a href="#custom-mode">Custom mode</a></li>
+    <li><a href="#tracks">Tracks, clips &amp; saving</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+    <li><a href="#about">About the creator</a></li>
+  </ol>
+  <button class="theme-toggle" id="themeToggle">Switch to dark</button>
+  <p style="margin:22px 10px 0;font-size:13px;color:var(--muted)">Built by <b style="color:var(--text)"><a href="#about" style="color:inherit">Pablo Arias Sarah</a></b><br><a href="#support">Support this project ♥</a><br><a href="https://www.instagram.com/mlledesalignac/" target="_blank" rel="noopener">Mlle de Salignac on Instagram</a><br><a href="https://www.youtube.com/@artrprod9620" target="_blank" rel="noopener">ARTR on YouTube ▶</a></p>
+</nav>
+
+<main>
+<!-- ================================================================== -->
+<header class="hero">
+  <div>
+    <div class="eyebrow">For Ableton Live 12 · Launchpad Pro MK3</div>
+    <h1>Paunchpad: <span>in-depth Ableton controller scripts, tailored for live performance.</span></h1>
+    <p class="byline">Built by <b>Pablo Arias Sarah</b> · made for <b>Ableton Live</b></p>
+    <p class="lead">Paunchpad is an Ableton Live remote script for the Launchpad Pro MK3. It takes over every pad and light, and turns the Launchpad into the controller you design. You get Session mode, velocity-sensitive faders, drum and melodic sequencers, Note mode and a Custom mode of 64 slider pads. <b>You choose which button opens what</b>: up to ten modes on the five top-row buttons, each pressed or with Shift. Everything is saved with your Live Set. It's more than 5,000 lines of Python, tested by over 700 automated checks.</p>
+    <p class="byline" style="margin:-8px 0 22px">Tested with Ableton Live 12.4.6 Suite · macOS 26.6 · Launchpad Pro MK3 · <a href="#tested">details</a></p>
+    <div class="chips">
+      <span class="chip"><i style="background:#35d45a"></i>Session &amp; faders</span>
+      <span class="chip"><i style="background:#ff4d8d"></i>Drum sequencers</span>
+      <span class="chip"><i style="background:#7b61ff"></i>Melodic sequencers</span>
+      <span class="chip"><i style="background:#b04dff"></i>Note mode</span>
+      <span class="chip"><i style="background:#0090ff"></i>Custom mode</span>
+      <span class="chip"><i style="background:linear-gradient(90deg,#ff5a1f,#7b61ff)"></i>Any mode on any button</span>
+    </div>
+    <div class="creator">
+      <div class="avatar">PA</div>
+      <div>
+        <div class="label">About the creator</div>
+        <div class="name">Pablo Arias Sarah</div>
+        <div class="desc">Researcher &amp; techno producer · Grenoble · Mlle de Salignac</div>
+      </div>
+      <a class="more" href="#about">More →</a>
+    </div>
+  </div>
+  <div id="lp-hero"></div>
+</header>
+
+<!-- ================================================================== -->
+<section class="chapter" id="introduction">
+  <div class="chapter-num">Chapter 1</div>
+  <h2>Introduction</h2>
+  <div class="donate" id="support">
+    <div>
+      <h3><span style="color:#ff2d87">♥</span> Please consider supporting Paunchpad</h3>
+      <p>Paunchpad took <b>countless hours</b> to build: designing every mode, testing each pad and light on the Launchpad, and chasing down bugs inside Ableton Live, one late night at a time.</p>
+      <p>If it's part of your music, please really consider making a donation. Even a small one makes a real difference: it keeps Paunchpad alive, pays for the time that goes into new features and fixes, and tells me the work matters to you. Thank you.</p>
+      <p style="font-size:14px;color:var(--muted)">— Pablo Arias Sarah</p>
+    </div>
+    <a class="donate-button" href="https://www.paypal.com/donate/?business=artrprod%40gmail.com&amp;item_name=Paunchpad&amp;no_recurring=0" target="_blank" rel="noopener" id="donateButton">♥ Donate with PayPal</a>
+  </div>
+  <p class="intro">Paunchpad puts the Launchpad in <b>programmer mode</b>. In that mode the script, rather than the Launchpad's firmware, decides what every pad does and how it lights. On top of that it builds everything below, laid out like the Launchpad Pro MK3's own modes wherever it can. Out of the box, the top-row buttons open two drum sequencers, three melodic sequencers, Note mode and Custom mode, but that's only a starting point: you can rearrange them and add more (<a href="#customise">chapter 4</a>).</p>
+  <div class="cards">
+    <div class="card"><div class="dot" style="background:#e8f9ee">▶</div><h4>Session mode</h4><p>Launch clips and scenes, move the session box, record, and arm, mute or solo tracks: the stock Launchpad Session mode.</p></div>
+    <div class="card"><div class="dot" style="background:#e9f7ea">≡</div><h4>Faders</h4><p>Volume, pan, sends and device parameters on the grid. The harder you hit, the faster a fader glides, and a pad pressed twice gives finer steps.</p></div>
+    <div class="card"><div class="dot" style="background:#ffe8f0">◼</div><h4>Drum sequencers</h4><p>Two independent step sequencers for Drum Racks: 32 steps, per-step velocity, probability, mutation and micro-timing, note repeat and throw pads.</p></div>
+    <div class="card"><div class="dot" style="background:#efebff">♪</div><h4>Melodic sequencers</h4><p>Three independent Push-style sequencers that follow Live's key and scale, with pages, loops, randomise and key changes that carry the playing clips along.</p></div>
+    <div class="card"><div class="dot" style="background:#f5e8ff">⌨</div><h4>Note mode</h4><p>Play the selected track: chromatic or in-key layouts, overlaps, and a Drum layout for Drum Racks, as on the LPP MK3.</p></div>
+    <div class="card"><div class="dot" style="background:#e6f3ff">⧉</div><h4>Custom mode</h4><p>64 slider pads that you link to any control in Live. They light in the colour of the control's track and follow it when you move it with the mouse.</p></div>
+  </div>
+  <div class="note" style="border-color:var(--accent);background:var(--accent-soft)"><strong>Make it yours</strong>Everything is customisable. Any mode can go on <b>whichever top-row button you want</b>, as a press or with Shift, and you can add extra sequencers. You set it in one small settings file, <code>Config.py</code>; see <a href="#customise">chapter 4</a>. Every speed, colour and behaviour is open in the script's code too.</div>
+  <div class="note"><strong>Good to know</strong>Every sequencer remembers its own track, pattern and view. What you set up (track locks, Custom mode links and values) is saved in the Live Set, so it comes back when you reopen it.</div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="why">
+  <div class="chapter-num">Chapter 2</div>
+  <h2>Why Paunchpad</h2>
+  <p class="intro">Paunchpad comes from a long love of Launchpads, and from wanting the Launchpad Pro MK3 to fit the way I play live.</p>
+  <div class="story">
+    <p>"I've played with Launchpads for 16 years, starting with the original Launchpad, released in 2009, and the amazing Launchpad95 scripts. When I got the Launchpad Pro MK3, I fell for the hardware, and wanted it to work the way I'd played live for years: sequencing straight into Ableton, fast and silent to program on stage. So I built Paunchpad."</p>
+    <p class="who">— Pablo Arias Sarah</p>
+  </div>
+  <div class="music">
+    <a class="video" href="https://www.youtube.com/watch?v=-5rtAvNFcrg" target="_blank" rel="noopener" aria-label="Watch the Electroacoustic Live Set on YouTube">
+      <img src="https://img.youtube.com/vi/-5rtAvNFcrg/hqdefault.jpg" alt="Electroacoustic Live Set (2019), played with an original Launchpad and Launchpad95" loading="lazy">
+      <span class="play"><span></span></span>
+    </a>
+    <div>
+      <h4>What I used to do with Launchpad95, back in the day</h4>
+      <p>I'm Pablo Arias Sarah, a music maker, researcher and techno producer based in <b>Grenoble, France</b>, and I make music as <b>Mlle de Salignac</b>.</p>
+      <p>This is what I used to do with an original Launchpad and the Launchpad95 scripts, back in 2019: my <i>Electroacoustic Live Set</i>. It's the kind of live playing Paunchpad brings to the Launchpad Pro MK3, and takes further.</p>
+      <a class="yt-button" href="https://www.youtube.com/@artrprod9620" target="_blank" rel="noopener">▶ ARTR on YouTube</a> &nbsp;<a href="#about">More about me</a>
+    </div>
+  </div>
+  <p>The Launchpad Pro MK3 is a wonderful instrument, designed to be many things at once: a standalone sequencer, a controller for any DAW, and a great Session controller for Ableton Live. Paunchpad makes a different trade-off: it gives up standalone use for depth in one place. <b>Paunchpad takes over the Launchpad in programmer mode to create an in-depth Ableton controller, specially designed for live performance.</b> Here's where that changes how you play:</p>
+  <div class="vs">
+    <div class="vs-row">
+      <div class="vs-before"><span class="tag">Launchpad Pro MK3</span><h4>Its own sequencer</h4><p>The built-in sequencer is a full standalone step sequencer: it runs even without a computer, alongside Ableton's clips.</p></div>
+      <div class="vs-after"><span class="tag">With Paunchpad</span><h4>Sequencing inside Ableton</h4><p>Every step you place is a note in a Live clip on the sequencer's track. The sequencers follow the clip that's playing, and Session mode, clips and sequencers share one timeline. See <a href="#drum">Drum</a> and <a href="#melodic">Melodic sequencer</a>.</p></div>
+    </div>
+    <div class="vs-row">
+      <div class="vs-before"><span class="tag">Launchpad Pro MK3</span><h4>Pads that play as you pick</h4><p>Picking a drum sound plays it, which is great for finding sounds by ear. The alternative, selecting the step first and then the sound, takes more presses: 16 per bar for a four-on-the-floor kick instead of 8.</p></div>
+      <div class="vs-after"><span class="tag">With Paunchpad</span><h4>Silent selection for the stage</h4><p>With Record off, the drum pads select sounds silently. Pick the kick, tap four steps, done. Turn Record on when you want the pads to play.</p></div>
+    </div>
+    <div class="vs-row">
+      <div class="vs-before"><span class="tag">Launchpad Pro MK3</span><h4>Settings per step</h4><p>Velocity, probability and mutation apply to the whole step, so everything on a step shares them.</p></div>
+      <div class="vs-after"><span class="tag">With Paunchpad</span><h4>Settings per sound, per step</h4><p>Velocity, probability, mutation and micro-timing are set for the selected sound on the selected step. The other sounds on that step keep their own values.</p></div>
+    </div>
+    <div class="vs-row">
+      <div class="vs-before"><span class="tag">Launchpad Pro MK3</span><h4>Mutes in the mixer</h4><p>Individual drum sounds are muted in Live, on the Drum Rack. This was something I was used to doing from the pads with my Launchpad95 scripts.</p></div>
+      <div class="vs-after"><span class="tag">With Paunchpad</span><h4>Mute any sound from the pads</h4><p>The Mute button (the LPP's Print to Clip) mutes and unmutes the selected sound, or hold it and tap pads. Muted sounds keep their steps and show dim red.</p></div>
+    </div>
+    <div class="vs-row">
+      <div class="vs-before"><span class="tag">Launchpad Pro MK3</span><h4>Custom modes made in Components</h4><p>Custom modes are designed in Novation Components and live on the grid; the scene buttons and Live's blue hand aren't part of them. Their controls send fixed messages, so what they control can't be changed from within the mode. I had rebuilt the blue hand in Max for Live.</p></div>
+      <div class="vs-after"><span class="tag">With Paunchpad</span><h4>A Custom mode that uses every button</h4><p>Paunchpad's <a href="#custom-mode">Custom mode</a> uses the scene buttons for rows and the buttons below the pads for columns. Link any pad to any Live control right from the Launchpad (Quantise + pad), and relink it whenever you like. In the drum sequencer, the sound controls follow the selected sound's device.</p></div>
+    </div>
+    <div class="vs-row">
+      <div class="vs-before"><span class="tag">Launchpad Pro MK3</span><h4>A firmware you play</h4><p>The modes live in the Launchpad's firmware, polished and ready to play, but not meant to be changed.</p></div>
+      <div class="vs-after"><span class="tag">With Paunchpad</span><h4>Open and fully customisable</h4><p>Paunchpad is a plain Python remote script, built on the Pro MK3's programmer mode. Choose what each button opens in <a href="#customise">Config.py</a>, and change any speed, colour or behaviour in the code.</p></div>
+    </div>
+  </div>
+  <div class="note"><strong>Thank you, Novation</strong>Paunchpad only exists because the Launchpad Pro MK3 is such good hardware, and because Novation gives it a documented programmer mode that lets anyone build on it.</div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="getting-started">
+  <div class="chapter-num">Chapter 3</div>
+  <h2>Getting started</h2>
+  <p class="intro">Install the script once, pick it in Live's settings, and lay out your Set so that the sequencers find their tracks.</p>
+  <ol class="steps">
+    <li><b>Install.</b> Put the <code>Paunchpad</code> folder in <code>~/Music/Ableton/User Library/Remote Scripts/</code>.</li>
+    <li><b>Select it in Live.</b> Open <b>Settings → Tempo &amp; MIDI</b> and set:
+      <table>
+        <tr><th>Setting</th><th>Value</th></tr>
+        <tr><td>Control Surface</td><td class="wrap">Paunchpad</td></tr>
+        <tr><td>Input</td><td class="wrap">Launchpad Pro MK3 (<b>LPProMK3 MIDI</b>)</td></tr>
+        <tr><td>Output</td><td class="wrap">Launchpad Pro MK3 (<b>LPProMK3 MIDI</b>)</td></tr>
+      </table>
+    </li>
+    <li><b>Set the ports</b> in the MIDI Ports list:
+      <ul class="clean">
+        <li><b>LPProMK3 MIDI input:</b> Remote ✔ and <b>Track ✔</b>, so the drum pads can sound on their tracks.</li>
+        <li><b>LPProMK3 MIDI output:</b> Remote ✔, Track ✘, Sync ✘.</li>
+        <li><b>LPProMK3 DAW</b> (input and output): everything off. Don't load the stock <i>Launchpad_Pro_MK3</i> script at the same time.</li>
+      </ul>
+    </li>
+    <li><b>Lay out your Set.</b> Each top-row button opens a sequencer that starts on its own track. Put two drum tracks (MIDI tracks with a Drum Rack) first, then three melodic MIDI tracks:
+      <table>
+        <tr><th>Button</th><th>Opens</th><th>Starts on</th></tr>
+        <tr><td>Note</td><td class="wrap">Drum sequencer A</td><td>Track 1</td></tr>
+        <tr><td>Chord</td><td class="wrap">Drum sequencer B</td><td>Track 2</td></tr>
+        <tr><td>Custom</td><td class="wrap">Melodic sequencer A</td><td>Track 3</td></tr>
+        <tr><td>Sequencer</td><td class="wrap">Melodic sequencer B</td><td>Track 4</td></tr>
+        <tr><td>Projects</td><td class="wrap">Melodic sequencer C</td><td>Track 5</td></tr>
+      </table>
+      To move a sequencer to another track, select that track while the sequencer is shown. This is the default layout: to put other modes on these buttons, see <a href="#customise">chapter 4</a>.
+    </li>
+  </ol>
+  <div class="note warn"><strong>Use the MIDI port</strong>In programmer mode the Launchpad only talks on its <b>MIDI</b> port, not the DAW port. Live's dropdowns cut the names short ("Launchpad Pro M…"), so check the Ports list afterwards: the entry renamed "Paunchpad Input/Output" must be the MIDI one.</div>
+  <div class="note"><strong>Tip</strong>For the lowest latency, use wired audio with a 128-sample buffer. Bluetooth headphones add around 200 ms.</div>
+  <h3 id="tested">Tested with</h3>
+  <table>
+    <tr><th>What</th><th>Tested</th></tr>
+    <tr><td>Ableton Live</td><td class="wrap"><b>Live 12.4.6 Suite</b>. Live 12 is needed: Paunchpad uses Live 12's key and scale, and its note API</td></tr>
+    <tr><td>Computer</td><td class="wrap"><b>macOS 26.6</b> on an Apple silicon Mac</td></tr>
+    <tr><td>Controller</td><td class="wrap"><b>Novation Launchpad Pro MK3</b>, over USB, in programmer mode (Paunchpad switches it)</td></tr>
+  </table>
+  <div class="note warn"><strong>Not tested yet</strong>Windows, other editions of Live 12 (Intro, Standard), and other Launchpad models. Other editions of Live 12 on a Mac should work the same way. If you try Paunchpad on another setup, please share how it goes.</div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="customise">
+  <div class="chapter-num">Chapter 4</div>
+  <h2>Make it yours</h2>
+  <p class="intro">Paunchpad is built to be shaped around the way you play. Put any mode on any of the five top-row buttons (Note, Chord, Custom, Sequencer, Projects), as a press or with <kbd>Shift</kbd>. You can also add more sequencers and choose which track each one starts on.</p>
+  <h3>How to change the buttons</h3>
+  <ol class="steps">
+    <li><b>Open <code>Config.py</code></b> in the Paunchpad folder (<code>~/Music/Ableton/User Library/Remote Scripts/Paunchpad/</code>) with any text editor, such as TextEdit or VS Code. In TextEdit, choose <i>Format → Make Plain Text</i> first.</li>
+    <li><b>Choose what each button opens, in <code>BUTTONS</code>.</b> <code>BUTTONS</code> is the list that decides which mode opens when you press one of the five top-row buttons (Note, Chord, Custom, Sequencer, Projects). Each button has <b>two lines</b>: one for pressing it on its own, and one for pressing it while holding <kbd>Shift</kbd>. That gives you ten places to put a mode.
+      <p style="margin:12px 0 6px">Each line reads <i>button</i> : <i>mode</i>. For example:</p>
+<pre class="config"><span class="s">'Shift + Custom'</span>:    <span class="s">'custom mode'</span>,   <span class="c"># hold Shift and press Custom: Custom mode opens</span></pre>
+      <p style="margin:6px 0">To change what a button does, change only the <b>mode on the right</b>, keeping it in quotes, for example <code>'drum B'</code> or <code>'note mode'</code>. Write <code>None</code> (no quotes) for nothing. Leave the button names on the left, the colons and the commas as they are. This is the default list:</p>
+<pre class="config"><span class="k">BUTTONS</span> = {
+    <span class="c"># button               mode it opens</span>
+    <span class="s">'Note'</span>:              <span class="s">'drum A'</span>,        <span class="c"># Note: drum sequencer A</span>
+    <span class="s">'Shift + Note'</span>:      <span class="s">'note mode'</span>,     <span class="c"># Shift + Note: Note mode</span>
+
+    <span class="s">'Chord'</span>:             <span class="s">'drum B'</span>,        <span class="c"># Chord: drum sequencer B</span>
+    <span class="s">'Shift + Chord'</span>:     <span class="n">None</span>,            <span class="c"># Shift + Chord: nothing</span>
+
+    <span class="s">'Custom'</span>:            <span class="s">'melodic A'</span>,     <span class="c"># Custom: melodic sequencer A</span>
+    <span class="s">'Shift + Custom'</span>:    <span class="s">'custom mode'</span>,   <span class="c"># Shift + Custom: Custom mode</span>
+
+    <span class="s">'Sequencer'</span>:         <span class="s">'melodic B'</span>,     <span class="c"># Sequencer: melodic sequencer B</span>
+    <span class="s">'Shift + Sequencer'</span>: <span class="n">None</span>,
+
+    <span class="s">'Projects'</span>:          <span class="s">'melodic C'</span>,     <span class="c"># Projects: melodic sequencer C</span>
+    <span class="s">'Shift + Projects'</span>:  <span class="n">None</span>,
+}</pre>
+    </li>
+    <li><b>Choose the start tracks</b> in <code>START_TRACKS</code> (1 = the first track in your Set). Selecting another track while a sequencer is shown still moves it, and the choice is saved in your Live Set.
+<pre class="config"><span class="k">START_TRACKS</span> = {<span class="s">'drum A'</span>: 1, <span class="s">'drum B'</span>: 2, <span class="s">'melodic A'</span>: 3, <span class="s">'melodic B'</span>: 4, <span class="s">'melodic C'</span>: 5}</pre>
+    </li>
+    <li><b>Save, then reload the script:</b> in Live, <b>Settings → Link, Tempo &amp; MIDI</b>, set Control Surface to <b>None</b>, then back to <b>Paunchpad</b>.</li>
+  </ol>
+  <h3>The modes you can use</h3>
+  <table>
+    <tr><th>Write</th><th>Mode</th></tr>
+    <tr><td><code>'drum A'</code>, <code>'drum B'</code></td><td class="wrap">A <a href="#drum">drum sequencer</a></td></tr>
+    <tr><td><code>'melodic A'</code>, <code>'melodic B'</code>, <code>'melodic C'</code></td><td class="wrap">A <a href="#melodic">melodic sequencer</a></td></tr>
+    <tr><td><code>'note mode'</code></td><td class="wrap"><a href="#note-mode">Note mode</a>. Pressing its button again opens its settings</td></tr>
+    <tr><td><code>'custom mode'</code></td><td class="wrap"><a href="#custom-mode">Custom mode</a></td></tr>
+    <tr><td><code>None</code></td><td class="wrap">Nothing</td></tr>
+    <tr><td><code>'drum C'</code>, <code>'melodic D'</code>, <code>'melodic bass'</code>…</td><td class="wrap">A <b>new</b> sequencer: any name after <code>drum</code> or <code>melodic</code> creates one, with its own track, pattern and view</td></tr>
+  </table>
+  <h3>Examples</h3>
+  <div class="two">
+    <div>
+      <h4>Three drum sequencers</h4>
+<pre class="config"><span class="s">'Shift + Chord'</span>: <span class="s">'drum C'</span>,</pre>
+      <p style="font-size:15px;color:var(--muted)">Shift + Chord now opens a third drum sequencer. Add <code>'drum C': 6</code> to <code>START_TRACKS</code> to start it on Track 6.</p>
+    </div>
+    <div>
+      <h4>Note mode on its own button</h4>
+<pre class="config"><span class="s">'Shift + Note'</span>:     <span class="n">None</span>,
+<span class="s">'Projects'</span>:         <span class="s">'note mode'</span>,
+<span class="s">'Shift + Projects'</span>: <span class="s">'melodic C'</span>,</pre>
+      <p style="font-size:15px;color:var(--muted)">Projects plays Note mode straight away, and melodic C moves to Shift + Projects.</p>
+    </div>
+  </div>
+  <div class="note"><strong>Rules of thumb</strong>Each mode goes on one button only. Session always shows the clips. A sequencer keeps its track by <b>name</b>: rename <code>'melodic B'</code> and the new name starts fresh.</div>
+  <div class="note warn"><strong>Made a typo?</strong>Nothing breaks. A mistake in <code>Config.py</code> is skipped, the rest still works, and Live's <code>Log.txt</code> explains it (search for <code>Paunchpad config</code>).</div>
+  <h3>Going further</h3>
+  <p>If you're comfortable with a little Python, every speed, curve and colour is a named setting at the top of the script's files. For example, <code>RANDOM_CURVE</code> in <code>Melodic.py</code> sets how sparse Randomise is, <code>SOFTEST_SWEEP_TIME</code> in <code>Faders.py</code> sets how slow a soft hit moves a fader, and <code>TAP_TIME</code> in <code>Custom.py</code> sets how short a tap is. Reload the script after a change, as above.</p>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="at-a-glance">
+  <div class="chapter-num">Chapter 5</div>
+  <h2>The Launchpad at a glance</h2>
+  <p class="intro">The 8×8 grid changes with the mode. The buttons around it keep their jobs: modes along the top, editing tools on the left, scenes or views on the right, and tracks along the bottom.</p>
+  <div class="figure">
+    <div><div id="lp-overview"></div><div class="caption">Button names as used in this guide.</div></div>
+    <div>
+      <div class="legend-title">Around the grid</div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#ff5a1f"></span><span><b>Top row:</b> Shift, ◀ ▶, then the mode buttons Session, Note, Chord, Custom, Sequencer and Projects.</span></li>
+        <li><span class="sw" style="background:#6d6d78"></span><span><b>Left column:</b> ▲ ▼, then Clear, Duplicate, Quantise, Fixed Length, Play and Record.</span></li>
+        <li><span class="sw" style="background:#35d45a"></span><span><b>Right column:</b> scene launch in Session mode, views in the sequencers, rows in Custom mode.</span></li>
+        <li><span class="sw" style="background:#2f6bff"></span><span><b>Row below the grid:</b> track select (columns in Custom mode).</span></li>
+        <li><span class="sw" style="background:#b04dff"></span><span><b>Bottom row:</b> Record Arm, Mute, Solo, Volume, Pan, Sends, Device, Stop Clip.</span></li>
+      </ul>
+    </div>
+  </div>
+  <h3>The mode buttons</h3>
+  <p>Each top-row button opens a mode. Holding <kbd>Shift</kbd> while you press Note or Custom opens a second mode on the same button. <b>Session</b> always takes you back to the clips. This is the <b>default layout</b>: you can put any mode on any button (<a href="#customise">chapter 4</a>).</p>
+  <table>
+    <tr><th>Button</th><th>Press</th><th>Shift + press</th></tr>
+    <tr><td>Session</td><td class="wrap">Clips (hold: overview)</td><td class="wrap">–</td></tr>
+    <tr><td>Note</td><td class="wrap">Drum sequencer A</td><td class="wrap"><a href="#note-mode">Note mode</a> (the button turns purple); again: its settings</td></tr>
+    <tr><td>Chord</td><td class="wrap">Drum sequencer B</td><td class="wrap">–</td></tr>
+    <tr><td>Custom</td><td class="wrap">Melodic sequencer A</td><td class="wrap"><a href="#custom-mode">Custom mode</a> (the button turns blue)</td></tr>
+    <tr><td>Sequencer</td><td class="wrap">Melodic sequencer B</td><td class="wrap">–</td></tr>
+    <tr><td>Projects</td><td class="wrap">Melodic sequencer C</td><td class="wrap">–</td></tr>
+  </table>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="session">
+  <div class="chapter-num">Chapter 6</div>
+  <h2>Session mode</h2>
+  <p class="intro">The grid is an 8×8 window onto Live's Session view: each pad is a clip slot, lit in the clip's colour. It's the stock Launchpad Pro MK3 Session mode, rebuilt.</p>
+  <div class="figure">
+    <div><div id="lp-session"></div><div class="caption">Clips in their colours, playing clips green, scene buttons on the right.</div></div>
+    <div>
+      <div class="legend-title">Controls</div>
+      <table>
+        <tr><th>Control</th><th>Action</th></tr>
+        <tr><td>Pad</td><td class="wrap">Launch the clip</td></tr>
+        <tr><td>Scene button</td><td class="wrap">Launch the scene</td></tr>
+        <tr><td>▲ ▼ ◀ ▶</td><td class="wrap">Move the session box</td></tr>
+        <tr><td>Hold Session</td><td class="wrap">Overview: pads jump the box, arrows move by 8</td></tr>
+        <tr><td>Track buttons</td><td class="wrap">Select tracks</td></tr>
+      </table>
+    </div>
+  </div>
+  <h3>Editing clips and scenes</h3>
+  <table>
+    <tr><th>Hold</th><th>+ pad</th><th>+ scene button</th></tr>
+    <tr><td>Shift</td><td class="wrap">Select the clip slot</td><td class="wrap">–</td></tr>
+    <tr><td>Clear</td><td class="wrap">Delete the clip</td><td class="wrap">Delete the scene</td></tr>
+    <tr><td>Duplicate</td><td class="wrap">Duplicate the clip</td><td class="wrap">Duplicate the scene</td></tr>
+    <tr><td>Shift + Duplicate</td><td class="wrap">Double the clip's loop</td><td class="wrap">–</td></tr>
+    <tr><td>Quantise</td><td class="wrap">Quantise the clip</td><td class="wrap">–</td></tr>
+  </table>
+  <h3>Track buttons and transport</h3>
+  <div class="two">
+    <table>
+      <tr><th>Bottom row</th><th>Track buttons become</th></tr>
+      <tr><td>Record Arm</td><td class="wrap">Arm</td></tr>
+      <tr><td>Mute</td><td class="wrap">Mute</td></tr>
+      <tr><td>Solo</td><td class="wrap">Solo</td></tr>
+      <tr><td>Stop Clip</td><td class="wrap">Stop the track's clip</td></tr>
+    </table>
+    <table>
+      <tr><th>Button</th><th>Action</th></tr>
+      <tr><td>Play</td><td class="wrap">Play / stop</td></tr>
+      <tr><td>Record</td><td class="wrap">Session record</td></tr>
+      <tr><td>Fixed Length</td><td class="wrap">Hold + track buttons: 1–8 bars</td></tr>
+    </table>
+  </div>
+  <p>Press a bottom-row button again to go back to track select.</p>
+  <h3>Shift functions</h3>
+  <table>
+    <tr><th>Shift +</th><th>Action</th><th>Shift +</th><th>Action</th></tr>
+    <tr><td>Record Arm</td><td class="wrap">Undo</td><td>Record</td><td class="wrap">Capture MIDI</td></tr>
+    <tr><td>Mute</td><td class="wrap">Redo</td><td>Play</td><td class="wrap">Continue</td></tr>
+    <tr><td>Solo</td><td class="wrap">Metronome</td><td>Quantise</td><td class="wrap">Record quantisation on / off</td></tr>
+    <tr><td>Sends</td><td class="wrap">Tap tempo</td><td></td><td></td></tr>
+  </table>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="faders">
+  <div class="chapter-num">Chapter 7</div>
+  <h2>Faders</h2>
+  <p class="intro">Press <b>Volume</b>, <b>Pan</b>, <b>Sends</b> or <b>Device</b> on the bottom row, and the grid becomes eight faders, one per column, with the bottom pad at the minimum. Press the button again, or Session, to go back to the clips.</p>
+  <div class="figure">
+    <div><div id="lp-faders"></div><div class="caption">Volume faders. Column 4 holds a micro value: its top pad is dimmed.</div></div>
+    <div>
+      <div class="legend-title">Colours</div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#35d45a"></span><span><b>Volume:</b> green. The top pad is 0 dB.</span></li>
+        <li><span class="sw" style="background:#ff9f43"></span><span><b>Pan:</b> the track's colour, lit from the centre outwards.</span></li>
+        <li><span class="sw" style="background:#ffd60a"></span><span><b>Sends:</b> the return track's colour. Scene buttons choose send A, B, …</span></li>
+        <li><span class="sw" style="background:#1a3a85"></span><span><b>Device:</b> dark blue. Scene buttons choose the bank, ◀ ▶ the device.</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="dot" style="background:#e8f9ee">⚡</div><h4>Velocity sensitive</h4><p>A fader glides to the pad you press. Hit hard and it gets there almost at once; hit softly and it moves slowly, up to 2.5 s for the full range. Press another pad mid-glide to redirect it.</p></div>
+    <div class="card"><div class="dot" style="background:#e8f9ee">¼</div><h4>Micro values</h4><p>Press the pad the fader is already on again: it steps through 4 finer values between that pad and the one below (¼, ½, ¾, full). The pad dims while it holds a micro value.</p></div>
+  </div>
+  <div class="note"><strong>Just like the original</strong>Glide speed and micro values follow Novation's own faders on the Launchpad X and Pro MK3. On/off-type parameters jump straight to the pad's value.</div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="drum">
+  <div class="chapter-num">Chapter 8</div>
+  <h2>Drum sequencer</h2>
+  <p class="shortcut">Open with <kbd>Note</kbd> (sequencer A) or <kbd>Chord</kbd> (sequencer B) · leave with <kbd>Session</kbd></p>
+  <p class="intro">A step sequencer for a Drum Rack, laid out like the Launchpad Pro MK3's own. Choose a sound on the drum pads, then tap steps to place it. The two drum sequencers work the same way, each on its own track.</p>
+  <div class="figure">
+    <div><div id="lp-drum"></div><div class="caption">Steps view: 32 steps on top, the drum pads bottom-left, tools bottom-right.</div></div>
+    <div>
+      <div class="legend-title">The four areas</div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#ff4d8d"></span><span><b>Steps (top 4 rows):</b> 32 steps. Steps holding the selected sound are in the track colour, the playhead is white, a longer gate is green.</span></li>
+        <li><span class="sw" style="background:#ffffff"></span><span><b>Drum pads (bottom-left 4×4):</b> the Drum Rack's sounds. The selected sound is white, and a pad flashes green when it plays.</span></li>
+        <li><span class="sw" style="background:#2f6bff"></span><span><b>Sound controls (bottom-right, rows 1–2):</b> blue −, red + for the selected sound's first four parameters.</span></li>
+        <li><span class="sw" style="background:#35d45a"></span><span><b>Throw pads (row 3):</b> send the selected sound to a return, in the return's colour.</span></li>
+        <li><span class="sw" style="background:#ff8a00"></span><span><b>Note repeat (row 4):</b> hold to repeat the sound at 1/8, 1/8T, 1/16, 1/32.</span></li>
+      </ul>
+    </div>
+  </div>
+  <h3>Placing sounds</h3>
+  <table>
+    <tr><th>Action</th><th>Result</th></tr>
+    <tr><td>Tap a drum pad</td><td class="wrap">Select that sound (silently, unless Record is on)</td></tr>
+    <tr><td>Tap a step</td><td class="wrap">Toggle the selected sound on that step</td></tr>
+    <tr><td>Hold a pad + tap steps</td><td class="wrap">Toggle that sound on those steps</td></tr>
+    <tr><td>Hold a step + tap pads</td><td class="wrap">Toggle those sounds on that step</td></tr>
+    <tr><td>Hold a step + press a later step</td><td class="wrap">Gate length (green); press the same end step again to reset it</td></tr>
+    <tr><td>Clear + step / pad</td><td class="wrap">Clear the step / remove that sound from the whole pattern</td></tr>
+    <tr><td>Duplicate + step, then steps</td><td class="wrap">Copy the step</td></tr>
+    <tr><td>▲ ▼ · ◀ ▶</td><td class="wrap">Previous / next 16 drum pads · shift them by one row</td></tr>
+    <tr><td>Shift + ◀ ▶</td><td class="wrap">Previous / next page (loops longer than 32 steps)</td></tr>
+    <tr><td>Play · Record</td><td class="wrap">Launch the pattern / stop · record mode (pads sound and record)</td></tr>
+  </table>
+  <h3>Views (right column)</h3>
+  <table>
+    <tr><th>Button</th><th>View</th></tr>
+    <tr><td>1 Patterns</td><td class="wrap">Row 1 = the track's first 8 clip slots. Tap to select and launch (Shift: select only)</td></tr>
+    <tr><td>2 Steps</td><td class="wrap">The main view above</td></tr>
+    <tr><td>3 Pattern Settings</td><td class="wrap">Loop length (tap a step = the loop ends there) and step rate. See below</td></tr>
+    <tr><td>4 Velocity</td><td class="wrap">Per sound, per step: 8 levels, 16 to 127</td></tr>
+    <tr><td>5 Probability</td><td class="wrap">Per sound, per step: 12.5% to 100%</td></tr>
+    <tr><td>6 Mutation</td><td class="wrap">Per sound, per step: random velocity, up to 100 softer</td></tr>
+    <tr><td>7 Micro Steps</td><td class="wrap">Nudge a note to one of 6 positions inside its step. Shift + Micro Steps: reset every send to 0</td></tr>
+    <tr><td>8 Mute</td><td class="wrap">Tap: mute / unmute the selected sound. Hold + tap pads: mute those</td></tr>
+  </table>
+  <div class="figure">
+    <div><div id="lp-velocity"></div><div class="caption">Velocity view: pick a step (it flashes white), then set its level on the slider.</div></div>
+    <div>
+      <div class="legend-title">Velocity, Probability, Mutation, Micro Steps</div>
+      <p>These views edit <b>one sound on one step</b>. Tap a step to select it; it flashes white. The two bottom-right rows become an <b>8-level slider</b> showing that note's value:</p>
+      <ul class="legend">
+        <li><span class="sw" style="background:#ff4d8d"></span><span><b>Velocity</b> in the track colour</span></li>
+        <li><span class="sw" style="background:#b04dff"></span><span><b>Probability</b> purple</span></li>
+        <li><span class="sw" style="background:#19e9ff"></span><span><b>Mutation</b> aqua</span></li>
+        <li><span class="sw" style="background:#ffd60a"></span><span><b>Micro Steps</b> yellow: 6 positions inside the step</span></li>
+      </ul>
+    </div>
+  </div>
+  <h3>Sound controls</h3>
+  <p>The blue (−) and red (+) pads move the selected sound's first four parameters: those of its own device, such as a Simpler's Filter Freq, Filter Res, Start and Length. <b>Tap</b> for a small nudge, <b>hold</b> to keep moving. The harder you hit, the faster it moves: about 25 s for the full range at the softest, 1.7 s at the hardest. Selecting a sound also shows its device in Live.</p>
+  <h3>Throw pads</h3>
+  <p>Hold a throw pad to send the <b>selected sound</b> to one of the Drum Rack's return chains, routed to a Set return. The harder you hit, the more you send: about a third at velocity 40, two thirds at 80, all of it at 127. Let go and the send returns to where it was. <b>Shift + throw pad</b> latches it on, and the pad flashes; tap it again to turn it off.</p>
+  <div class="note"><strong>Setup, once per kit</strong>In the Drum Rack, show the return chains section, add up to 4 return chains, and route each one's <b>Audio To</b> to a Set return. A throw pad stays dark until its return chain exists.</div>
+  <h3>Recording automation</h3>
+  <p>Press <kbd>Shift</kbd> + <kbd>Record</kbd> to record automation (Record pulses orange). While the pattern plays, what you do with the <b>sound controls</b> and <b>throw pads</b> is recorded into the pattern clip, as if you'd drawn it in Live's clip view. Filter sweeps, decay rides and dub throws become part of the pattern.</p>
+  <table>
+    <tr><th>Action</th><th>Result</th></tr>
+    <tr><td>Shift + Record</td><td class="wrap">Automation recording on / off</td></tr>
+    <tr><td>Hold a sound control or throw pad</td><td class="wrap">Its moves are written at the playhead, only while you touch it: the rest of its automation is kept</td></tr>
+    <tr><td>Clear + sound control pad</td><td class="wrap">Delete that parameter's automation (the selected sound's); the rest stays</td></tr>
+    <tr><td>Clear + drum pad</td><td class="wrap">Delete all of that sound's notes and all its automation</td></tr>
+    <tr><td>Play an automated parameter by hand</td><td class="wrap">With recording off: you take it over, and its automation is deleted</td></tr>
+    <tr><td>Duplicate + step, then steps</td><td class="wrap">Copies the step's automation too</td></tr>
+  </table>
+  <div class="note"><strong>Automated pads glow like a rainbow</strong>A pad whose parameter has automation cycles through a fast rainbow: red, green and blue follow three sine waves, like an LFO. You can see at a glance what's moving in your pattern.</div>
+  <h3>Note repeat</h3>
+  <p>Hold an orange pad to play the selected sound repeated at 1/8, 1/8T, 1/16 or 1/32, in time with Live's tempo, keeping the velocity of your first hit. Hold two, and the last one pressed sets the rate. Repeats play only on the sequencer's own track: other armed tracks listening to the Launchpad are disarmed while you're here, and re-armed when you leave.</p>
+  <h3>Pattern Settings</h3>
+  <div class="figure">
+    <div><div id="lp-pattern-settings"></div><div class="caption">A 16-step loop at 1/16 (the selected rate is white).</div></div>
+    <div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#ffb38a"></span><span><b>Rows 1–4, the loop length:</b> tap a step and the loop ends after it (1 to 32 steps). Peach steps are inside the loop.</span></li>
+        <li><span class="sw" style="background:#6ec6ff"></span><span><b>Row 5, the step rate:</b> 1/4, 1/4T, 1/8, 1/8T, 1/16, 1/16T, 1/32, 1/32T. Changing the rate keeps the number of steps.</span></li>
+      </ul>
+      <p style="font-size:15px;color:var(--muted)">At the default 1/16, 16 steps make 1 bar and 32 steps make 2 bars.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="melodic">
+  <div class="chapter-num">Chapter 9</div>
+  <h2>Melodic sequencer</h2>
+  <p class="shortcut">Open with <kbd>Custom</kbd>, <kbd>Sequencer</kbd> or <kbd>Projects</kbd> · leave with <kbd>Session</kbd></p>
+  <p class="intro">A Push-style note sequencer. Seven rows of notes from Live's key and scale, eight steps per page, and a row of page pads that shows the whole clip. There are three of them, each on its own track.</p>
+  <div class="figure">
+    <div><div id="lp-melodic"></div><div class="caption">Notes in the track colour, the root row dimmed, the playhead green.</div></div>
+    <div>
+      <div class="legend-title">What you see</div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#7b61ff"></span><span><b>Notes</b> in the track colour. Tap an empty pad to add a note, tap a note to remove it.</span></li>
+        <li><span class="sw" style="background:#3a2f7a"></span><span><b>Root-note rows:</b> the track colour, dimmed.</span></li>
+        <li><span class="sw" style="background:#1d6b31"></span><span><b>Playhead:</b> a green column, white where it crosses a note.</span></li>
+        <li><span class="sw" style="background:#ffffff"></span><span><b>Page pads (bottom row):</b> white = page shown, green = page playing, dim = in the loop, dim track colour = outside the loop.</span></li>
+        <li><span class="sw" style="background:#f4f4f4"></span><span><b>▲ ▼ lit white:</b> the loop has notes above / below the rows shown. Press them to go there.</span></li>
+      </ul>
+    </div>
+  </div>
+  <h3>Writing notes</h3>
+  <table>
+    <tr><th>Action</th><th>Result</th></tr>
+    <tr><td>Tap a pad</td><td class="wrap">Add a note (one step, velocity 100), or remove the note there</td></tr>
+    <tr><td>Hold a note + press a later pad</td><td class="wrap">The note lasts until there</td></tr>
+    <tr><td>Hold a note + ▲ ▼</td><td class="wrap">Move it an octave (Shift: one scale note)</td></tr>
+    <tr><td>▲ ▼ · Shift + ▲ ▼</td><td class="wrap">Octave · one note of the scale</td></tr>
+    <tr><td>◀ ▶</td><td class="wrap">Previous / next page</td></tr>
+    <tr><td>Clear + pad</td><td class="wrap">Delete the note</td></tr>
+    <tr><td>Play</td><td class="wrap">Launch the clip or stop</td></tr>
+  </table>
+  <h3>Pages and loops</h3>
+  <p>A page is 8 steps. The bottom row shows every page of the clip, so you can loop any part of it.</p>
+  <table>
+    <tr><th>On a page pad</th><th>Result</th></tr>
+    <tr><td>Tap</td><td class="wrap">Show that page and stay on it (it pulses). Tap it again to follow the playhead</td></tr>
+    <tr><td>Double-tap</td><td class="wrap">Loop only that page, even outside the current loop</td></tr>
+    <tr><td>Hold one + press another</td><td class="wrap">Loop those pages</td></tr>
+    <tr><td>Duplicate + page, then pages</td><td class="wrap">Copy the page onto them</td></tr>
+    <tr><td>Clear + page</td><td class="wrap">Erase the page's notes</td></tr>
+    <tr><td>Shift + page</td><td class="wrap"><b>Randomise</b> the page (see below)</td></tr>
+  </table>
+  <div class="note"><strong>Never lose a note</strong>When the sequencer switches to a clip whose notes are all off the rows shown (a bass line two octaves down, say), the rows move to them. ▲ ▼ light white while notes are hidden above or below. Notes outside the scale have no row while Scale mode is on: Live's status bar tells you how many, and tapping the selected scale again shows everything (chromatic).</div>
+  <div class="note"><strong>Changes on the beat</strong>Changing the loop while the clip plays takes effect at the <b>end of the page that's playing</b>, not after the whole old loop.</div>
+  <h4>Randomise: hit harder for more notes</h4>
+  <p>Shift + a page pad replaces that page with random notes from the seven rows shown, so they stay in key and in the current octave. How hard you hit sets how many of the 8 steps get a note:</p>
+  <div id="random-bars"></div>
+  <h3>Pattern Settings: loop, rate, key and scale</h3>
+  <div class="figure">
+    <div><div id="lp-melodic-settings"></div><div class="caption">Rows 6–7 are a piano keyboard for the root note; row 8 the scale.</div></div>
+    <div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#ffb38a"></span><span><b>Rows 1–4:</b> loop length, 1 to 32 steps.</span></li>
+        <li><span class="sw" style="background:#6ec6ff"></span><span><b>Row 5:</b> step rate.</span></li>
+        <li><span class="sw" style="background:#2f6bff"></span><span><b>Rows 6–7:</b> the root note as a piano keyboard; the selected root is bright blue.</span></li>
+        <li><span class="sw" style="background:#3ddc97"></span><span><b>Row 8:</b> the scale (hold Shift for 8 more). Tap the selected scale again to switch Live's Scale mode off (chromatic).</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="note"><strong>Key changes carry your clips</strong>The key and scale are Live's, shared by all three melodic sequencers. Changing them here also moves the notes of the clip <b>playing</b> on each melodic sequencer's track. A new root moves every note by the nearest interval; a new scale moves notes by scale step, so the 3rd stays the 3rd. Live's Undo puts them back.</div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="note-mode">
+  <div class="chapter-num">Chapter 10</div>
+  <h2>Note mode</h2>
+  <p class="shortcut">Open with <kbd>Shift</kbd> + <kbd>Note</kbd> · settings: <kbd>Shift</kbd> + <kbd>Note</kbd> again · leave with <kbd>Session</kbd></p>
+  <p class="intro">The grid becomes an instrument for the <b>selected track</b> in Live, as in the Launchpad Pro MK3's Note mode. The track gets Live's hidden arm while you play, so select another track to play that one instead.</p>
+  <div class="figure">
+    <div><div id="lp-note"></div><div class="caption">Chromatic layout, overlap 5, in C major.</div></div>
+    <div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#b04dff"></span><span><b>Purple:</b> the root note.</span></li>
+        <li><span class="sw" style="background:#2f6bff"></span><span><b>Blue:</b> notes in the scale.</span></li>
+        <li><span class="sw" style="background:#2c2c31"></span><span><b>Unlit:</b> other notes, still playable in the Chromatic layout.</span></li>
+        <li><span class="sw" style="background:#35d45a"></span><span><b>Green:</b> a pad you're pressing.</span></li>
+      </ul>
+      <table style="margin-top:18px">
+        <tr><th>Button</th><th>Action</th></tr>
+        <tr><td>▲ ▼</td><td class="wrap">Octave up / down</td></tr>
+        <tr><td>◀ ▶</td><td class="wrap">A semitone (Scale layout: a scale step)</td></tr>
+      </table>
+    </div>
+  </div>
+  <h3>Layouts</h3>
+  <div class="cards pairs">
+    <div class="card"><h4>Chromatic</h4><p>Every note, like a guitar neck. The default.</p></div>
+    <div class="card"><h4>Scale</h4><p>Only notes in the key, starting from the root, so you never play a wrong note.</p></div>
+    <div class="card"><h4>Overlap 2–7</h4><p>How far each row starts above the one below. 5 is the "guitar" layout, a 4th per row.</p></div>
+    <div class="card"><h4>Sequential</h4><p>Each row carries on where the one below ended. In the Scale layout, one row per octave.</p></div>
+  </div>
+  <div class="figure">
+    <div><div id="lp-note-drum"></div><div class="caption">Drum layout: four 4×4 blocks of drum pads.</div></div>
+    <div>
+      <div class="legend-title">Drum layout</div>
+      <p>If the selected track has a Drum Rack, the grid switches to four 4×4 blocks of drum pads automatically.</p>
+      <ul class="legend">
+        <li><span class="sw" style="background:#ffd60a"></span><span><b>Yellow:</b> a pad with a sound.</span></li>
+        <li><span class="sw" style="background:#2f6bff"></span><span><b>Blue:</b> the selected pad. Pressing a pad selects it in the Drum Rack too.</span></li>
+        <li><span class="sw" style="background:#3a3a3a"></span><span><b>Dim:</b> an empty pad.</span></li>
+      </ul>
+      <p style="font-size:15px;color:var(--muted)">▲ ▼ move 16 pads, ◀ ▶ move 4.</p>
+    </div>
+  </div>
+  <div class="figure">
+    <div><div id="lp-note-settings"></div><div class="caption">Settings: Shift + Note while in Note mode.</div></div>
+    <div>
+      <div class="legend-title">Settings</div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#7a1f1a"></span><span><b>Row 1:</b> the Chromatic / Scale toggle (dim red = Chromatic, green = Scale).</span></li>
+        <li><span class="sw" style="background:#b04dff"></span><span><b>Rows 2–3:</b> the root note as a piano keyboard; the root is purple.</span></li>
+        <li><span class="sw" style="background:#3ddc97"></span><span><b>Rows 4–5:</b> 16 scales. Root and scale are Live's, shared with the melodic sequencers.</span></li>
+        <li><span class="sw" style="background:#ff8a00"></span><span><b>Row 8:</b> overlap 2–7, then Sequential on the last pad.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="custom-mode">
+  <div class="chapter-num">Chapter 11</div>
+  <h2>Custom mode</h2>
+  <p class="shortcut">Open with <kbd>Shift</kbd> + <kbd>Custom</kbd> · leave with <kbd>Session</kbd> or any bottom-row button</p>
+  <p class="intro">The 64 pads become sliders, each holding a value from 0 to 127 that its brightness shows. Link a pad to any control in Live and it becomes that control: moving the pad moves the knob, and moving the knob lights the pad.</p>
+  <div class="figure">
+    <div><div id="lp-custom"></div><div class="caption">Free pads in blue; linked pads in their track's colour.</div></div>
+    <div>
+      <div class="legend-title">Colours</div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#0090ff"></span><span><b>Blue:</b> a pad on its own, brighter as its value goes up.</span></li>
+        <li><span class="sw" style="background:linear-gradient(90deg,#ffd60a,#ff39d4)"></span><span><b>Track colours:</b> linked pads, in the colour of the track the control is on (a knob on return A in return A's colour).</span></li>
+        <li><span class="sw" style="background:#ffffff"></span><span><b>White:</b> the pad you're holding.</span></li>
+      </ul>
+      <p style="font-size:15px;color:var(--muted)">Pads keep their exact colour and only get brighter or dimmer with the value.</p>
+    </div>
+  </div>
+  <div class="note" style="border-color:var(--accent-2);background:rgba(123,97,255,.08)"><strong>One page for now, dozens to come</strong>For now Custom mode has a single page: the 64 slider pads described here. It's built to grow: each page keeps its own values and links, so more custom pages can be added, up to dozens of custom modes, each with its own layout and purpose.</div>
+  <h3>Moving values</h3>
+  <table>
+    <tr><th>Action</th><th>Result</th></tr>
+    <tr><td>Hold a pad</td><td class="wrap">Raise its value. The harder you hit, the faster</td></tr>
+    <tr><td>Hold a scene button</td><td class="wrap">Raise that <b>row</b> slowly</td></tr>
+    <tr><td>Hold a button below the pads</td><td class="wrap">Raise that <b>column</b> slowly</td></tr>
+    <tr><td>Shift + hold either</td><td class="wrap">Lower the row / column slowly</td></tr>
+    <tr><td>Shift + tap either</td><td class="wrap">The row / column to 0 at once</td></tr>
+    <tr><td>Tap one when it's all at max</td><td class="wrap">Back to 0</td></tr>
+    <tr><td>Hold ▲ / ▼</td><td class="wrap">Raise / lower the row of the <b>last scene button</b> you pressed (it's lit brighter)</td></tr>
+    <tr><td>Shift + ▲ / ▼</td><td class="wrap">All 64 to max / to 0 at once</td></tr>
+    <tr><td>Shift or Clear + pad</td><td class="wrap">That pad to 0</td></tr>
+    <tr><td>Duplicate + pad, then pads</td><td class="wrap">Copy its value onto them</td></tr>
+  </table>
+  <h3>Linking a pad to a control in Live</h3>
+  <ol class="steps">
+    <li><b>Click a control in Live</b>: any knob, fader or device parameter, a track's volume, pan or sends, even inside racks.</li>
+    <li><b>Press Quantise + a pad.</b> Live's status bar confirms, for example <code>pad 5-5 -&gt; Auto Filter: Frequency</code>.</li>
+    <li><b>Play it.</b> The pad now moves that control, and with Live's automation arm on it records automation. Quantise + the same pad unlinks it.</li>
+  </ol>
+  <div class="note"><strong>Saved with your Set</strong>Pad values and links are saved in the Live Set. Links follow their tracks even if you move them.</div>
+  <div class="note warn"><strong>Not MIDI CC</strong>Links drive Live's controls directly. They can't reach external gear: a script can't send MIDI into Live.</div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="tracks">
+  <div class="chapter-num">Chapter 12</div>
+  <h2>Tracks, clips &amp; saving</h2>
+  <p class="intro">Each of the five sequencers keeps its own track, so you can have drums and melodies on the go and switch between them freely.</p>
+  <div class="cards pairs">
+    <div class="card"><h4>Choose a track</h4><p>Select a MIDI track, in Live or with the track buttons, while a sequencer is shown. The sequencer locks to it, and selections made elsewhere don't move it.</p></div>
+    <div class="card"><h4>Follows the playing clip</h4><p>When a clip starts on the sequencer's track, the sequencer switches to it. When the track stops, the last clip stays.</p></div>
+    <div class="card"><h4>Saved in the Set</h4><p>Track choices are saved with the Live Set, stored on the tracks themselves, so they survive moving tracks and reopening the Set.</p></div>
+    <div class="card"><h4>Coming back</h4><p>Opening a sequencer selects its track (and clip) in Live, so Live always shows what the Launchpad is editing.</p></div>
+  </div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="troubleshooting">
+  <div class="chapter-num">Chapter 13</div>
+  <h2>Troubleshooting</h2>
+  <table>
+    <tr><th>Symptom</th><th>What to do</th></tr>
+    <tr><td class="wrap">The Launchpad is dark or doesn't respond</td><td class="wrap">Input and output must be the <b>LPProMK3 MIDI</b> port, not DAW.</td></tr>
+    <tr><td class="wrap">Drum pads or repeats are silent</td><td class="wrap">Turn on Track ✔ for the LPProMK3 MIDI input. The drum track needs an instrument, its input on All Ins, and Monitor on Auto.</td></tr>
+    <tr><td class="wrap">Orange pads play once but don't repeat</td><td class="wrap">Reload the script to get the current version.</td></tr>
+    <tr><td class="wrap">A change to the script doesn't show up</td><td class="wrap">Set Control Surface to <b>None</b>, then back to <b>Paunchpad</b>.</td></tr>
+  </table>
+  <div class="note"><strong>Checking what's running</strong>Paunchpad writes to Live's log, <code>~/Library/Preferences/Ableton/Live 12.x/Log.txt</code>. Search for <code>Paunchpad: loaded</code> to see which version is running.</div>
+</section>
+
+<!-- ================================================================== -->
+<section class="chapter" id="about">
+  <div class="chapter-num">Chapter 14</div>
+  <h2>About the creator</h2>
+  <p class="intro">Paunchpad was built by <b>Pablo Arias Sarah</b>, a music maker, researcher and techno producer based in Grenoble, France.</p>
+  <p><b>Music.</b> I used to make and play music as <b>Mlle de Salignac</b>: analog techno, improvised live on machines, on an original Launchpad running the Launchpad95 scripts. It came out on <b>ARTR</b>, my independent record label in Paris, which released music and filmed live sets: my first EP, <i>Foreword</i>, was ARTR01, and my second, <i>Childhood</i>, ARTR02. We stopped ARTR many years ago, and I took a break from music. <b>Now I'm coming back</b>, and Paunchpad is part of that comeback: the instrument I wanted for playing live again.</p>
+  <p><b>Research.</b> By day I'm a researcher. I work at the CNRS in the Psychology and Neurocognition Lab at Université Grenoble Alpes. I study how people interact, using real-time voice and face transformations, for example with DuckSoup, a videoconferencing platform I developed that can change a smile or a tone of voice live, during a conversation. I did my PhD (in cognitive science, with Sorbonne University) at <b>IRCAM</b>, the computer music centre in Paris: a fantastic place for sound and music exploration, research and composition. There I investigated how sounds trigger emotions in humans, studying the particular case of <b>auditory smiles</b>, the smile you can hear in someone's voice. That's where sound, code and music meet for me.</p>
+  <div class="about">
+    <div class="card">
+      <h4>Music</h4>
+      <ul class="links">
+        <li><a href="https://www.instagram.com/mlledesalignac/" target="_blank" rel="noopener"><i style="background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af)">◎</i>Mlle de Salignac<small>Instagram</small></a></li>
+        <li><a href="https://www.youtube.com/@artrprod9620" target="_blank" rel="noopener"><i style="background:#ff0033">▶</i>ARTR<small>YouTube</small></a></li>
+        <li><a href="https://www.instagram.com/artrprod/" target="_blank" rel="noopener"><i style="background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af)">◎</i>ARTR<small>Instagram</small></a></li>
+        <li><a href="https://mlledesalignac.bandcamp.com/" target="_blank" rel="noopener"><i style="background:#1da0c3">b</i>Mlle de Salignac<small>Bandcamp</small></a></li>
+        <li><a href="https://open.spotify.com/artist/1wi3uZOGdKVb3LjTlyePy9" target="_blank" rel="noopener"><i style="background:#1db954">♫</i>Mlle de Salignac<small>Spotify</small></a></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Research</h4>
+      <ul class="links">
+        <li><a href="https://pablo-arias.github.io/" target="_blank" rel="noopener"><i style="background:#7b61ff">P</i>Personal website<small>pablo-arias.github.io</small></a></li>
+        <li><a href="https://scholar.google.com/citations?user=6jMFwJQAAAAJ&amp;hl=en" target="_blank" rel="noopener"><i style="background:#4285f4">S</i>Publications<small>Google Scholar</small></a></li>
+        <li><a href="https://github.com/Pablo-Arias" target="_blank" rel="noopener"><i style="background:#24292f">&lt;/&gt;</i>Code<small>GitHub</small></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="note" style="border-color:var(--accent);background:var(--accent-soft)"><strong>Support the comeback</strong>If Paunchpad is part of your music, please consider <a href="#support">making a donation</a>, and come and say hi on Instagram.</div>
+</section>
+
+<footer>Paunchpad was built by <b><a href="#about" style="color:inherit">Pablo Arias Sarah</a></b> (music maker, researcher and techno producer in Grenoble, France, who makes music as Mlle de Salignac): a remote script for the Novation Launchpad Pro MK3, made for Ableton Live 12. If it helps your music, please consider <a href="#support">supporting it</a>, and follow <a href="https://www.instagram.com/mlledesalignac/" target="_blank" rel="noopener">Mlle de Salignac on Instagram</a>. Not affiliated with Novation or Ableton.</footer>
+</main>
+</div>
+
+<script>
+// ---- Launchpad illustrations -------------------------------------------
+// A diagram is 8 strings of 8 pad codes (top row first), plus optional button
+// colours and labels. The codes are the script's real colours.
+const C = {
+  '.': null, w: '#f4f4f4', W: '#6d6d74', g: '#35d45a', G: '#1d6b31', b: '#2f6bff', B: '#1a3a85',
+  r: '#ff3b30', R: '#7a1f1a', o: '#ff8a00', O: '#7a4500', y: '#ffd60a', Y: '#7a6a10', p: '#b04dff',
+  P: '#55267a', m: '#3ddc97', M: '#1b6b49', l: '#6ec6ff', e: '#ffb38a', d: '#3a3a3a', a: '#19e9ff',
+  t: '#ff4d8d', T: '#7a2545', u: '#7b61ff', U: '#3a2f7a', c: '#19e9ff', k: '#ff39d4', s: '#99724b',
+  v: '#886ce4', q: '#00bfaf', n: '#ff9f43', f: '#0090ff',
+};
+const DARK_TEXT = new Set(['w', 'y', 'e', 'l', 'g', 'm', 'a', 'c', 'n', 'o']);
+
+const TOP = ['Shift', '◀', '▶', 'Session', 'Note', 'Chord', 'Custom', 'Seq', 'Projects'];
+const LEFT = ['▲', '▼', 'Clear', 'Dup', 'Quant', 'Fixed', 'Play', 'Rec'];
+const BOTTOM = ['Arm', 'Mute', 'Solo', 'Vol', 'Pan', 'Sends', 'Device', 'Stop'];
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+
+function button(label, color, ring, square) {
+  const b = el('div', 'cell btn' + (square ? ' square' : ''), label);
+  if (color) { b.style.background = color; b.classList.add('lit'); b.style.setProperty('--glow', color); }
+  if (ring) b.classList.add('ring');
+  return b;
+}
+
+function launchpad(target, spec) {
+  const root = document.getElementById(target);
+  if (!root) return;
+  const lp = el('div', 'lp');
+  const btn = spec.buttons || {};
+  // top row: corner (Shift) + 8 buttons + corner
+  TOP.forEach((label, i) => lp.appendChild(button(btn.top && btn.top[i] ? btn.top[i][1] || label : label,
+    btn.top && btn.top[i] ? C[btn.top[i][0]] : null, (spec.ring || []).includes('top' + i))));
+  lp.appendChild(el('div', 'cell empty'));
+  for (let r = 0; r < 8; r++) {
+    const lc = btn.left && btn.left[r];
+    lp.appendChild(button(lc ? lc[1] || LEFT[r] : LEFT[r], lc ? C[lc[0]] : null, (spec.ring || []).includes('left' + r)));
+    const row = (spec.grid && spec.grid[r]) || '........';
+    for (let col = 0; col < 8; col++) {
+      const code = spec.hex ? null : row[col];
+      const color = spec.hex ? spec.hex[r][col] : C[code];
+      const pad = el('div', 'cell pad');
+      if (color) {
+        pad.style.background = color; pad.classList.add('lit'); pad.style.setProperty('--glow', color);
+        if (!spec.hex) pad.classList.add(DARK_TEXT.has(code) ? 'darklabel' : 'dimlabel');
+      }
+      const label = spec.labels && spec.labels[r] && spec.labels[r][col];
+      if (label) pad.textContent = label;
+      if (spec.rings && spec.rings.some(([rr, cc]) => rr === r && cc === col)) pad.classList.add('ring');
+      lp.appendChild(pad);
+    }
+    const sc = btn.right && btn.right[r];
+    lp.appendChild(button(sc ? sc[1] || '' : '', sc ? C[sc[0]] : null, (spec.ring || []).includes('right' + r)));
+  }
+  lp.appendChild(el('div', 'cell empty'));
+  for (let i = 0; i < 8; i++) {
+    const tc = btn.tracks && btn.tracks[i];
+    lp.appendChild(button(tc ? tc[1] || '' : '', tc ? C[tc[0]] : null, false, true));
+  }
+  lp.appendChild(el('div', 'cell empty'));
+  lp.appendChild(el('div', 'cell empty'));
+  BOTTOM.forEach((label, i) => {
+    const bc = btn.bottom && btn.bottom[i];
+    lp.appendChild(button(bc ? bc[1] || label : label, bc ? C[bc[0]] : null, (spec.ring || []).includes('bottom' + i)));
+  });
+  lp.appendChild(el('div', 'cell empty'));
+  root.appendChild(lp);
+}
+
+const rep = (code, n) => Array(n).fill(code);
+
+// Hero and session: clips in their colours
+const SESSION = ['tcu.kvsq', 'tgu.kv.q', 'nc..kgsq', 'n.u..v.q', 'tcu.kv..', '..g..v.q', 'tc..k...', '........'];
+launchpad('lp-hero', {
+  grid: SESSION,
+  buttons: { top: [null, null, null, ['w', 'Session']], right: rep(['G', ''], 7).concat([['.', '']]),
+    tracks: [['u', ''], ['t', ''], ['n', ''], ['c', ''], ['k', ''], ['v', ''], ['s', ''], ['q', '']] },
+});
+launchpad('lp-session', {
+  grid: SESSION,
+  buttons: { top: [null, null, null, ['w', 'Session']], right: rep(['G', ''], 7).concat([['.', '']]),
+    left: [['W'], ['W'], null, null, null, null, ['G'], ['R']],
+    tracks: [['u', ''], ['t', ''], ['n', ''], ['c', ''], ['k', ''], ['v', ''], ['s', ''], ['q', '']] },
+});
+
+// Overview: every button labelled, the grid off
+launchpad('lp-overview', {
+  grid: rep('........', 8),
+  buttons: { top: [['o', 'Shift'], null, null, ['w', 'Session'], ['t', 'Note'], ['t', 'Chord'], ['u', 'Custom'], ['u', 'Seq'], ['u', 'Projects']],
+    right: rep(['g', ''], 8), tracks: rep(['b', ''], 8), bottom: rep(['p'], 8) },
+});
+
+// Faders: volume, one column holding a micro value (its top pad dimmed)
+(function () {
+  const heights = [7, 3, 6, 5, 8, 4, 7, 5];
+  const grid = [];
+  for (let r = 0; r < 8; r++) {
+    let row = '';
+    for (let c = 0; c < 8; c++) {
+      const fromBottom = 7 - r;
+      row += c === 3 && fromBottom === heights[c] - 1 ? 'G' : fromBottom < heights[c] ? 'g' : '.';
+    }
+    grid.push(row);
+  }
+  launchpad('lp-faders', { grid, buttons: { bottom: [null, null, null, ['g', 'Vol']], tracks: rep(['W', ''], 8) } });
+})();
+
+// Drum sequencer: Steps view
+const DRUM_TOOLS = ['ttwt' + 'brbr', 'tttt' + 'brbr', 'tttt' + 'gn..', 'tttt' + 'oooo'];
+launchpad('lp-drum', {
+  grid: ['t..tw.t.', 't...t.g.', 't..tt...', 't...t.t.'].concat(DRUM_TOOLS),
+  labels: [[], [], [], [], [], [], ['', '', '', '', '1', '2'], ['', '', '', '', '⅛', '⅛T', '1⁄16', '1⁄32']],
+  buttons: { top: [null, null, null, null, ['t', 'Note']],
+    right: [['W', 'Pat'], ['w', 'Steps'], ['W', 'Set'], ['W', 'Vel'], ['W', 'Prob'], ['W', 'Mut'], ['W', 'Micro'], ['R', 'Mute']],
+    left: [['W'], ['W'], null, null, null, null, ['G'], ['R']] },
+});
+launchpad('lp-velocity', {
+  grid: ['t..tw.t.', 't...t...', 't..tt...', 't...t.t.', 'ttwt' + 'brbr', 'tttt' + 'brbr', 'tttt' + 'tttt', 'tttt' + 'tt..'],
+  rings: [[0, 4]],
+  buttons: { top: [null, null, null, null, ['t', 'Note']],
+    right: [['W', 'Pat'], ['W', 'Steps'], ['W', 'Set'], ['w', 'Vel'], ['W', 'Prob'], ['W', 'Mut'], ['W', 'Micro'], ['R', 'Mute']] },
+});
+launchpad('lp-pattern-settings', {
+  grid: ['eeeeeeee', 'eeeeeeee', '........', '........', 'llllwlll', '........'].concat(DRUM_TOOLS.slice(2)),
+  labels: [[], [], [], [], ['¼', '¼T', '⅛', '⅛T', '1⁄16', 'T', '1⁄32', 'T']],
+  buttons: { top: [null, null, null, null, ['t', 'Note']],
+    right: [['W', 'Pat'], ['W', 'Steps'], ['w', 'Set'], ['W', 'Vel'], ['W', 'Prob'], ['W', 'Mut'], ['W', 'Micro'], ['R', 'Mute']] },
+});
+
+// Melodic sequencer
+launchpad('lp-melodic', {
+  grid: ['..G..u..', 'u.G.....', '..w....u', '.uG..u..', '..G.u...', 'u.G...u.', 'UuGUUUUu', 'wgWWUU..'],
+  labels: [['B'], ['A'], ['G'], ['F'], ['E'], ['D'], ['C']],
+  buttons: { top: [null, null, null, null, null, null, ['u', 'Custom']],
+    right: [['W', 'Pat'], ['w', 'Steps'], ['W', 'Set']], left: [['W'], ['W'], null, null, null, null, ['G'], null] },
+});
+launchpad('lp-melodic-settings', {
+  grid: ['eeeeeeee', 'eeeeeeee', '........', '........', 'llllwlll', '.BB.BBB.', 'bBBBBBB.', 'mMMMMMMM'],
+  labels: [[], [], [], [], [], ['', 'C#', 'D#', '', 'F#', 'G#', 'A#'], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], ['Maj', 'Min', 'Dor', 'Mix', 'Lyd', 'Phr', 'Loc', 'WT']],
+  buttons: { top: [null, null, null, null, null, null, ['u', 'Custom']], right: [['W', 'Pat'], ['W', 'Steps'], ['w', 'Set']] },
+});
+
+// Note mode: computed from the real layout (bottom-left C2, overlap 5, C major)
+(function () {
+  const scale = [0, 2, 4, 5, 7, 9, 11];
+  const grid = [], labels = [];
+  const names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  for (let r = 0; r < 8; r++) {
+    let row = '', lab = [];
+    for (let c = 0; c < 8; c++) {
+      const note = 48 + (7 - r) * 5 + c;
+      const deg = note % 12;
+      row += deg === 0 ? 'p' : scale.includes(deg) ? 'b' : '.';
+      lab.push(deg === 0 ? 'C' + (Math.floor(note / 12) - 2) : '');
+    }
+    grid.push(row); labels.push(lab);
+  }
+  grid[6] = grid[6].slice(0, 3) + 'g' + grid[6].slice(4);
+  launchpad('lp-note', { grid, labels, buttons: { top: [['o', 'Shift'], null, null, null, ['p', 'Note']], left: [['W'], ['W']] } });
+})();
+launchpad('lp-note-drum', {
+  grid: ['yyyd' + 'dddd', 'yyyy' + 'dddd', 'yydy' + 'yddd', 'yyyy' + 'yyyd', 'yydy' + 'yydd', 'yyyy' + 'yyyy', 'yyyd' + 'yyyy', 'byyd' + 'yyyy'],
+  buttons: { top: [null, null, null, null, ['p', 'Note']] },
+});
+launchpad('lp-note-settings', {
+  grid: ['R.......', '.BB.BBB.', 'pBBBBBB.', 'mMMMMMMM', 'MMMMMMMM', '........', '........', 'OOOoOO.O'],
+  labels: [[], ['', 'C#', 'D#', '', 'F#', 'G#', 'A#'], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], [], [], [], [], ['2', '3', '4', '5', '6', '7', '', 'Seq']],
+  buttons: { top: [['o', 'Shift'], null, null, null, ['p', 'Note']] },
+});
+
+// Custom mode: exact colours scaled by value (like the script's RGB lighting)
+(function () {
+  const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const scale = (h, v) => {
+    const level = 0.08 + 0.92 * v * v;
+    return 'rgb(' + rgb(h).map(x => Math.round(x * level)).join(',') + ')';
+  };
+  const values = [
+    [.2, .35, .5, .7, .85, 1, .6, .3], [.9, .7, .5, .3, .15, .4, .6, .8], [.5, .5, .5, .5, .5, .5, .5, .5],
+    [0, .1, .2, .35, .5, .65, .8, 1], [1, .8, .6, .4, .2, .1, 0, .3], [.7, .9, .4, .2, .6, .8, .3, .5],
+    [.3, .3, .3, .3, .3, .3, .3, .3], [1, .75, .5, .25, 0, .25, .5, .75]];
+  const colours = values.map((row, r) => row.map((v, c) => {
+    if (r === 0 && c < 3) return scale('#ffd60a', v);   // linked: a yellow track
+    if (r === 1 && c > 4) return scale('#ff39d4', v);   // linked: a pink track
+    if (r === 5 && c === 2) return '#f4f4f4';           // held
+    return scale('#0090ff', v);
+  }));
+  launchpad('lp-custom', {
+    hex: colours,
+    buttons: { top: [['o', 'Shift'], null, null, null, null, null, ['b', 'Custom']], right: rep(['B', ''], 8),
+      tracks: rep(['B', ''], 8), left: [['W'], ['W'], ['R', 'Clear'], ['y', 'Dup'], ['n', 'Quant']] },
+  });
+})();
+
+// Randomise: velocity -> number of notes (8 * ((v - 1) / 126) ** 2, at least 1)
+(function () {
+  const root = document.getElementById('random-bars');
+  const rows = [[40, 'soft'], [64, ''], [80, ''], [90, 'medium'], [100, ''], [110, ''], [120, ''], [127, 'hardest']];
+  const wrap = el('div');
+  wrap.style.cssText = 'display:grid;gap:8px;margin:14px 0 22px;max-width:560px';
+  rows.forEach(([v, word]) => {
+    const n = Math.max(1, Math.round(8 * Math.pow((v - 1) / 126, 2)));
+    const line = el('div');
+    line.style.cssText = 'display:grid;grid-template-columns:100px repeat(8,1fr) 130px;gap:5px;align-items:center;font-size:14px';
+    const lab = el('div', null, 'velocity ' + v);
+    lab.style.color = 'var(--muted)';
+    line.appendChild(lab);
+    for (let i = 0; i < 8; i++) {
+      const s = el('div');
+      s.style.cssText = 'height:18px;border-radius:4px;background:' + (i < n ? '#7b61ff' : 'var(--surface-2)');
+      line.appendChild(s);
+    }
+    const out = el('div', null, n + (n === 1 ? ' note' : ' notes') + (word ? ' · ' + word : ''));
+    out.style.cssText = 'font-weight:600;font-size:13px;white-space:nowrap;padding-left:6px';
+    line.appendChild(out);
+    wrap.appendChild(line);
+  });
+  root.appendChild(wrap);
+})();
+
+// Brand mark
+(function () {
+  const mark = document.getElementById('brandMark');
+  ['#ff4d8d', '#7b61ff', '#35d45a', '#ffd60a', '#ff8a00', '#2f6bff', '#b04dff', '#19e9ff', '#ff3b30']
+    .forEach(c => { const i = document.createElement('i'); i.style.background = c; mark.appendChild(i); });
+})();
+
+// ---- Navigation --------------------------------------------------------
+const links = [...document.querySelectorAll('nav.side a')];
+const byId = Object.fromEntries(links.map(a => [a.getAttribute('href').slice(1), a]));
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(a => a.classList.remove('active'));
+      const a = byId[e.target.id];
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+document.querySelectorAll('section.chapter').forEach(s => observer.observe(s));
+
+const side = document.getElementById('side');
+document.getElementById('menuButton').addEventListener('click', () => side.classList.toggle('open'));
+links.forEach(a => a.addEventListener('click', () => side.classList.remove('open')));
+
+// Theme: follows the system, with a toggle remembered on this browser.
+const toggle = document.getElementById('themeToggle');
+function currentTheme() {
+  const set = document.documentElement.getAttribute('data-theme');
+  if (set) return set;
+  return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  toggle.textContent = theme === 'dark' ? 'Switch to light' : 'Switch to dark';
+}
+try { const saved = localStorage.getItem('paunchpad-theme'); if (saved) applyTheme(saved); } catch (e) {}
+toggle.textContent = currentTheme() === 'dark' ? 'Switch to light' : 'Switch to dark';
+toggle.addEventListener('click', () => {
+  const next = currentTheme() === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  try { localStorage.setItem('paunchpad-theme', next); } catch (e) {}
+});
+</script>
+</body>
+</html>
