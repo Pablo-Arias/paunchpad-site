@@ -110,7 +110,7 @@ main { padding: 0 56px 120px; max-width: 1040px; }
 /* ---- Hero ------------------------------------------------------------- */
 .hero {
   display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; align-items: center;
-  padding: 64px 0 56px; border-bottom: 1px solid var(--line);
+  padding: 40px 0 56px; border-bottom: 1px solid var(--line);
 }
 .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
 .hero h1 { font-size: 44px; line-height: 1.08; letter-spacing: -.03em; margin: 12px 0 18px; font-weight: 800; }
@@ -221,6 +221,13 @@ ul.clean li { margin: 6px 0; }
 .zone p { margin: 0; font-size: 14.5px; color: var(--muted); }
 
 footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+.release-banner { margin: 24px 0 0; padding: 14px 18px; border-radius: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
+  background: linear-gradient(90deg, rgba(255,90,31,.14), rgba(123,97,255,.14)); border: 1px solid rgba(255,90,31,.45); }
+.release-banner .msg { font-weight: 800; letter-spacing: .01em; font-size: 15px; }
+.release-banner .msg small { display: block; font-weight: 500; color: var(--muted); font-size: 14px; margin-top: 2px; letter-spacing: 0; }
+.release-banner .actions { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.release-banner .actions a { padding: 8px 14px; border-radius: 10px; color: #fff; font-weight: 700; font-size: 14px; white-space: nowrap; }
+.release-banner .actions a:hover { text-decoration: none; filter: brightness(1.08); }
 .creator { display: flex; align-items: center; gap: 14px; margin-top: 22px; padding: 14px 16px; border-radius: 14px;
   background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); max-width: 520px; }
 .creator .avatar { width: 44px; height: 44px; border-radius: 50%; flex: none; display: grid; place-items: center;
@@ -297,7 +304,8 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     background: var(--surface); color: var(--text); border: 1px solid var(--line); box-shadow: var(--shadow);
   }
   main { padding: 0 16px 80px; }
-  .hero { grid-template-columns: 1fr; padding-top: 56px; gap: 28px; }
+  .hero { grid-template-columns: 1fr; padding-top: 32px; gap: 28px; }
+  .release-banner { margin-top: 64px; }
   .hero h1 { font-size: 34px; }
   .figure { grid-template-columns: 1fr; padding: 18px; }
   .two, .zones, .cards.pairs { grid-template-columns: 1fr; }
@@ -335,6 +343,14 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
 </nav>
 
 <main>
+<div class="release-banner" role="note">
+  <div class="msg">⚠️ PAUNCHPAD HASN'T BEEN RELEASED YET: YOU WON'T FIND ANY DOWNLOAD LINKS FOR NOW.
+    <small>Subscribe to keep up with updates, and be the first to know when it's out.</small></div>
+  <div class="actions">
+    <a href="https://www.youtube.com/@artrprod9620?sub_confirmation=1" target="_blank" rel="noopener" style="background:#ff0033">▶ Subscribe on YouTube</a>
+    <a href="https://www.instagram.com/mlledesalignac/" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af)">◎ Follow on Instagram</a>
+  </div>
+</div>
 <!-- ================================================================== -->
 <header class="hero">
   <div>
@@ -447,7 +463,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
   <h2>Getting started</h2>
   <p class="intro">Install the script once, pick it in Live's settings, and lay out your Set so that the sequencers find their tracks.</p>
   <ol class="steps">
-    <li><b>Install.</b> Put the <code>Paunchpad</code> folder in <code>~/Music/Ableton/User Library/Remote Scripts/</code>.</li>
+    <li><b>Install.</b> Put the <code>Paunchpad</code> folder in <code>~/Music/Ableton/User Library/Remote Scripts/</code>. <i>(Paunchpad isn't released yet, so there's no download for now: <a href="https://www.youtube.com/@artrprod9620?sub_confirmation=1" target="_blank" rel="noopener">subscribe</a> to hear when it is.)</i></li>
     <li><b>Select it in Live.</b> Open <b>Settings → Tempo &amp; MIDI</b> and set:
       <table>
         <tr><th>Setting</th><th>Value</th></tr>
