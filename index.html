@@ -912,7 +912,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
       <p style="font-size:15px;color:var(--muted)">Pads keep their exact colour and only get brighter or dimmer with the value.</p>
     </div>
   </div>
-  <div class="note"><strong>Play it with an LFO too</strong>Link the same control to a pad in <a href="#lfo-mode">LFO mode</a>: this pad then moves the place the LFO swings around. Ableton's own MIDI mapping allows one mapping per parameter; Paunchpad sets values directly, so a control can have as many pads as you like.</div>
+  <div class="note"><strong>Play it with an LFO too</strong>The same pad in <a href="#lfo-mode">LFO mode</a> moves the same control, with an LFO: this pad then moves the place the LFO swings around. Ableton's own MIDI mapping allows one mapping per parameter; Paunchpad sets values directly, so a control can have as many pads as you like.</div>
   <div class="note" style="border-color:var(--accent-2);background:rgba(123,97,255,.08)"><strong>One page for now, dozens to come</strong>For now Custom mode has a single page: the 64 slider pads described here. It's built to grow: each page keeps its own values and links, so more custom pages can be added, up to dozens of custom modes, each with its own layout and purpose.</div>
   <h3>Moving values</h3>
   <table>
@@ -967,7 +967,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <tr><td>Shift or Clear + pad</td><td class="wrap"><b>LFO off</b>: the control goes back to its place</td><td class="wrap">Slowest rate</td></tr>
     <tr><td>Duplicate + pad, then pads</td><td class="wrap">Copy the depth</td><td class="wrap">Copy the rate</td></tr>
     <tr><td>Hold Quantise + pad</td><td class="wrap" colspan="2">Link the pad to the control clicked last in Live (again: unlink)</td></tr>
-    <tr><td>Hold Duplicate + tap Quantise</td><td class="wrap" colspan="2">Link every pad to the control its pad has in Custom mode</td></tr>
+    <tr><td>(nothing)</td><td class="wrap" colspan="2">A pad with no link of its own moves the control the same pad has in Custom mode</td></tr>
   </table>
   <h3>Shapes: the bottom row</h3>
   <p>The eight buttons at the very bottom pick the shape of all the LFOs. The selected one is lit bright.</p>
@@ -988,7 +988,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <tr><td>Volumes and sends</td><td class="wrap"><b>±10 dB</b> around the fader: at half depth, a fader at −20 dB goes from −25 to −15 dB. Never louder than <b>−10 dB</b>: near that ceiling, the upward half of the swing gets smaller, so it just reaches it.<br><code>LFO_DB_SWING</code>, <code>LFO_DB_CEILING</code></td></tr>
     <tr><td>Every other control</td><td class="wrap"><b>±15 %</b> of its current value.<br><code>LFO_SWING_PERCENT</code></td></tr>
   </table>
-  <div class="note"><strong>One control, two hands</strong>Link the same control to a pad in Custom mode and to a pad in LFO mode. The Custom pad moves the fader, and the LFO keeps swinging around wherever you put it. Shortcut: in LFO mode, hold <kbd>Duplicate</kbd> and tap <kbd>Quantise</kbd> to link every pad to the same control as in Custom mode.</div>
+  <div class="note"><strong>One control, two hands</strong>Link a pad in Custom mode, and the same pad in LFO mode moves the same control: there's nothing else to set up. The Custom pad moves the fader, and the LFO keeps swinging around wherever you put it. To give an LFO pad a different control, link it in LFO mode (hold Quantise + pad).</div>
   <div class="cards pairs">
     <div class="card"><h4>Always running</h4><p>The LFOs keep moving their controls whatever mode you're in: set a few slow swells, then go play the sequencers.</p></div>
     <div class="card"><h4>Around your hand</h4><p>Move a modulated knob with the mouse and the LFO swings around its new place. Closing the Set puts every control back where it was.</p></div>
