@@ -856,6 +856,28 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
   <h4>Randomise: hit harder for more notes</h4>
   <p>Shift + a page pad replaces that page with random notes from the seven rows shown, so they stay in key and in the current octave. How hard you hit sets how many of the 8 steps get a note:</p>
   <div id="random-bars"></div>
+  <h3>Velocity, chance and mutation</h3>
+  <p>The same values as the drum sequencer, for melodic notes. <b>Velocity</b>; <b>probability</b>, Live's <i>Chance</i> (the note may not play); and <b>mutation</b>, Live's <i>velocity range</i> (each play up to that much softer, at random). Scene buttons 4, 5 and 6 open their views.</p>
+  <div class="figure">
+    <div><div id="lp-melodic-velocity"></div><div class="caption">Velocity view: one slider per step above, the pages still on the bottom row.</div></div>
+    <div>
+      <div class="legend-title">One slider per step</div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#7b61ff"></span><span><b>Velocity</b> (button 4), in the track colour: 18 to 127.</span></li>
+        <li><span class="sw" style="background:#b04dff"></span><span><b>Probability</b> (button 5), purple: 14% to 100%.</span></li>
+        <li><span class="sw" style="background:#19e9ff"></span><span><b>Mutation</b> (button 6), aqua: no range to 100 softer.</span></li>
+        <li><span class="sw" style="background:#ffffff"></span><span><b>Pages:</b> the bottom row works as in the Steps view, so you move between pages without leaving the view.</span></li>
+      </ul>
+      <p>Tap a pad and every note starting on that step, a chord too, takes that level. Live's status bar shows the value.</p>
+    </div>
+  </div>
+  <table>
+    <tr><th>Gesture</th><th>Does</th><th>Twice within 0.6 s</th></tr>
+    <tr><td>Hold Probability + tap a page pad</td><td class="wrap">New chances for that page's notes. <b>The harder you hit, the higher the chances</b>: soft ≈ 10–40%, medium ≈ 40–70%, hard ≈ 75–100%, at random</td><td class="wrap">The down-beats keep a 100% chance: the groove stays, the rest thins</td></tr>
+    <tr><td>Hold Mutation + tap a page pad</td><td class="wrap">Random velocity ranges for that page's notes, deeper the harder you hit (up to 100)</td><td class="wrap">The most on the off-beats, little on the beats</td></tr>
+    <tr><td>Clear + Velocity / Probability / Mutation</td><td class="wrap" colspan="2">Reset that value on the page shown: velocity 100, chance 100%, no range</td></tr>
+  </table>
+  <div class="note"><strong>See the chances while you play</strong>In the Steps view, a note with a chance below 100% <b>pulses</b>, so a thinned page shows at a glance.</div>
   <h3>Pattern Settings: loop, rate, key and scale</h3>
   <div class="figure">
     <div><div id="lp-melodic-settings"></div><div class="caption">Rows 6–7 are a piano keyboard for the root note; row 8 the scale.</div></div>
@@ -1234,6 +1256,11 @@ launchpad('lp-melodic', {
   labels: [['B'], ['A'], ['G'], ['F'], ['E'], ['D'], ['C']],
   buttons: { top: [null, null, null, null, null, null, ['u', 'Custom']],
     right: [['W', 'Pat'], ['w', 'Steps'], ['W', 'Set']], left: [['W'], ['W'], null, null, null, null, ['G'], null] },
+});
+launchpad('lp-melodic-velocity', {
+  grid: ['..u...u.', 'u.u.u.u.', 'u.uuu.u.', 'uuuuu.u.', 'uuuuu.uu', 'uuuuu.uu', 'uuuuu.uu', 'wWWW....'],
+  buttons: { top: [null, null, null, null, null, null, ['u', 'Custom']],
+    right: [['W', 'Pat'], ['W', 'Steps'], ['W', 'Set'], ['w', 'Vel'], ['W', 'Prob'], ['W', 'Mut']] },
 });
 launchpad('lp-melodic-settings', {
   grid: ['eeeeeeee', 'eeeeeeee', '........', '........', 'llllwlll', '.BB.BBB.', 'bBBBBBB.', 'mMMMMMMM'],
