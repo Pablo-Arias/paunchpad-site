@@ -992,6 +992,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <tr><td>Shift + ▲ / ▼</td><td class="wrap">All 64 to max / to 0 at once</td></tr>
     <tr><td>Shift or Clear + pad</td><td class="wrap">That pad to 0</td></tr>
     <tr><td>Duplicate + pad, then pads</td><td class="wrap">Copy its value onto them</td></tr>
+    <tr><td>Hold Duplicate + tap Quantise</td><td class="wrap">Give every pad the control its pad has in <a href="#lfo-mode">LFO mode</a> (pads not linked there keep theirs)</td></tr>
   </table>
   <h3>Linking a pad to a control in Live</h3>
   <ol class="steps">
@@ -1033,6 +1034,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <tr><td>Duplicate + pad, then pads</td><td class="wrap">Copy the depth</td><td class="wrap">Copy the rate</td></tr>
     <tr><td>Hold Quantise + pad</td><td class="wrap" colspan="2">Link the pad to the control clicked last in Live (again: unlink)</td></tr>
     <tr><td>(nothing)</td><td class="wrap" colspan="2">A pad with no link of its own moves the control the same pad has in Custom mode</td></tr>
+    <tr><td>Hold Duplicate + tap Quantise</td><td class="wrap" colspan="2">Give every pad, as its own link, the control its pad has in Custom mode. In Custom mode, the same gesture goes the other way: Custom pads get LFO mode's links</td></tr>
   </table>
   <div class="note"><strong>Live tells you what changes</strong>Every gesture shows in Live's status bar, updated while you hold it: <code>pad 1-1: depth 33%: T2: Volume ±3.3 dB</code>, <code>row 3: depth 8-24% (average 10%)</code>, <code>row 3: LFOs off</code>, <code>row 3: cycles of 4.0-9.9 s</code>. Custom mode does the same with the controls' values.</div>
   <h3>Shapes: the bottom row</h3>
