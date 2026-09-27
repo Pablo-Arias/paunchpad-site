@@ -555,7 +555,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
 <span class="k">LFO_DB_CEILING</span> = <span class="n">-10</span>      <span class="c"># dB, the loudest an LFO makes a volume or send</span>
 <span class="k">LFO_SWING_PERCENT</span> = <span class="n">15</span>    <span class="c"># every other control: % of its value, below and above</span></pre>
     </li>
-    <li><b>Set the depth of the drum velocity accents</b> (Velocity + drum pad): how far a note's velocity moves up or down, in %, on the hardest hit.
+    <li><b>Set the depth of the velocity accents</b> (drum: Velocity + drum pad; melodic: Velocity + page pad): how far a note's velocity moves up or down, in %, on the hardest hit.
 <pre class="config"><span class="k">VELOCITY_ACCENT_PERCENT</span> = <span class="n">10</span>   <span class="c"># +-10% at most</span></pre>
     </li>
     <li><b>Save, then reload the script:</b> in Live, <b>Settings → Link, Tempo &amp; MIDI</b>, set Control Surface to <b>None</b>, then back to <b>Paunchpad</b>.</li>
@@ -857,7 +857,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
   <p>Shift + a page pad replaces that page with random notes from the seven rows shown, so they stay in key and in the current octave. How hard you hit sets how many of the 8 steps get a note:</p>
   <div id="random-bars"></div>
   <h3>Velocity, chance and mutation</h3>
-  <p>The same values as the drum sequencer, for melodic notes. <b>Velocity</b>; <b>probability</b>, Live's <i>Chance</i> (the note may not play); and <b>mutation</b>, Live's <i>velocity range</i> (each play up to that much softer, at random). Scene buttons 4, 5 and 6 open their views.</p>
+  <p>The same values as the drum sequencer, for melodic notes. <b>Velocity</b>; <b>probability</b>, Live's <i>Chance</i> (the note may not play); and <b>mutation</b>, Live's <i>velocity range</i> (each play up to that much softer, at random). Tap scene button 4, 5 or 6 to open their views.</p>
   <div class="figure">
     <div><div id="lp-melodic-velocity"></div><div class="caption">Velocity view: one slider per step above, the pages still on the bottom row.</div></div>
     <div>
@@ -866,17 +866,19 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
         <li><span class="sw" style="background:#7b61ff"></span><span><b>Velocity</b> (button 4), in the track colour: 18 to 127.</span></li>
         <li><span class="sw" style="background:#b04dff"></span><span><b>Probability</b> (button 5), purple: 14% to 100%.</span></li>
         <li><span class="sw" style="background:#19e9ff"></span><span><b>Mutation</b> (button 6), aqua: no range to 100 softer.</span></li>
-        <li><span class="sw" style="background:#ffffff"></span><span><b>Pages:</b> the bottom row works as in the Steps view, so you move between pages without leaving the view.</span></li>
+        <li><span class="sw" style="background:#ffffff"></span><span><b>Pages:</b> the bottom row is the page row, exactly as in the Steps view: the playing page in green, tap, double tap and hold to show and loop pages, without leaving the view.</span></li>
       </ul>
       <p>Tap a pad and every note starting on that step, a chord too, takes that level. Live's status bar shows the value.</p>
     </div>
   </div>
   <table>
     <tr><th>Gesture</th><th>Does</th><th>Twice within 0.6 s</th></tr>
+    <tr><td>Hold Velocity + tap a page pad</td><td class="wrap"><b>Velocity accents</b>, as in the drum sequencer: the off-beats up, the beats down, <b>±10%</b> at most, deeper the harder you hit</td><td class="wrap">Accents on the down-beats instead</td></tr>
     <tr><td>Hold Probability + tap a page pad</td><td class="wrap">New chances for that page's notes. <b>The harder you hit, the higher the chances</b>: soft ≈ 10–40%, medium ≈ 40–70%, hard ≈ 75–100%, at random</td><td class="wrap">The down-beats keep a 100% chance: the groove stays, the rest thins</td></tr>
-    <tr><td>Hold Mutation + tap a page pad</td><td class="wrap">Random velocity ranges for that page's notes, deeper the harder you hit (up to 100)</td><td class="wrap">The most on the off-beats, little on the beats</td></tr>
+    <tr><td>Hold Mutation + tap a page pad</td><td class="wrap">Velocity ranges on the accents: the most on the off-beats (up to 100), little on the beats, deeper the harder you hit</td><td class="wrap">The most on the down-beats instead</td></tr>
     <tr><td>Clear + Velocity / Probability / Mutation</td><td class="wrap" colspan="2">Reset that value on the page shown: velocity 100, chance 100%, no range</td></tr>
   </table>
+  <div class="note"><strong>Nothing moves under your hands</strong>These gestures don't change what the Launchpad shows: holding Velocity, Probability or Mutation with a page pad (or with Clear) doesn't open its view, and the page shown stays. A tap on its own opens the view.</div>
   <div class="note"><strong>See the chances while you play</strong>In the Steps view, a note with a chance below 100% <b>pulses</b>, so a thinned page shows at a glance.</div>
   <h3>Pattern Settings: loop, rate, key and scale</h3>
   <div class="figure">
