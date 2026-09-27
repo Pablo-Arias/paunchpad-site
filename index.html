@@ -558,6 +558,9 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <li><b>Set the depth of the velocity accents</b> (drum: Velocity + drum pad; melodic: Velocity + page pad): how far a note's velocity moves up or down, in %, on the hardest hit.
 <pre class="config"><span class="k">VELOCITY_ACCENT_PERCENT</span> = <span class="n">10</span>   <span class="c"># +-10% at most</span></pre>
     </li>
+    <li><b>One key for all melodic sequencers, or each its own</b> (also switchable in Pattern Settings):
+<pre class="config"><span class="k">SHARED_KEY</span> = <span class="n">True</span>   <span class="c"># False: each melodic sequencer has its own root and scale</span></pre>
+    </li>
     <li><b>Save, then reload the script:</b> in Live, <b>Settings → Link, Tempo &amp; MIDI</b>, set Control Surface to <b>None</b>, then back to <b>Paunchpad</b>.</li>
   </ol>
   <h3>The modes you can use</h3>
@@ -856,8 +859,8 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
   <h4>Randomise: hit harder for more notes</h4>
   <p>Shift + a page pad replaces that page with random notes from the seven rows shown, so they stay in key and in the current octave. How hard you hit sets how many of the 8 steps get a note:</p>
   <div id="random-bars"></div>
-  <h3>Velocity, chance and mutation</h3>
-  <p>The same values as the drum sequencer, for melodic notes. <b>Velocity</b>; <b>probability</b>, Live's <i>Chance</i> (the note may not play); and <b>mutation</b>, Live's <i>velocity range</i> (each play up to that much softer, at random). Tap scene button 4, 5 or 6 to open their views.</p>
+  <h3>Velocity, chance, mutation and micro steps</h3>
+  <p>The same values as the drum sequencer, for melodic notes. <b>Velocity</b>; <b>probability</b>, Live's <i>Chance</i> (the note may not play); and <b>mutation</b>, Live's <i>velocity range</i> (each play up to that much softer, at random). Tap scene button 4, 5 or 6 to open their views. Button 7, <b>Micro Steps</b>, nudges notes inside their step.</p>
   <div class="figure">
     <div><div id="lp-melodic-velocity"></div><div class="caption">Velocity view: one slider per step above, the pages still on the bottom row.</div></div>
     <div>
@@ -866,6 +869,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
         <li><span class="sw" style="background:#7b61ff"></span><span><b>Velocity</b> (button 4), in the track colour: 18 to 127.</span></li>
         <li><span class="sw" style="background:#b04dff"></span><span><b>Probability</b> (button 5), purple: 14% to 100%.</span></li>
         <li><span class="sw" style="background:#19e9ff"></span><span><b>Mutation</b> (button 6), aqua: no range to 100 softer.</span></li>
+        <li><span class="sw" style="background:#ffd60a"></span><span><b>Micro Steps</b> (button 7), yellow: 6 positions inside the step, bottom = on the grid. Clear + Micro Steps puts the page back on the grid.</span></li>
         <li><span class="sw" style="background:#ffffff"></span><span><b>Pages:</b> the bottom row is the page row, exactly as in the Steps view: the playing page in green, tap, double tap and hold to show and loop pages, without leaving the view.</span></li>
       </ul>
       <p>Tap a pad and every note starting on that step, a chord too, takes that level. Live's status bar shows the value.</p>
@@ -888,11 +892,13 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
         <li><span class="sw" style="background:#ffb38a"></span><span><b>Rows 1–4:</b> loop length, 1 to 32 steps.</span></li>
         <li><span class="sw" style="background:#6ec6ff"></span><span><b>Row 5:</b> step rate.</span></li>
         <li><span class="sw" style="background:#2f6bff"></span><span><b>Rows 6–7:</b> the root note as a piano keyboard; the selected root is bright blue.</span></li>
+        <li><span class="sw" style="background:#35d45a"></span><span><b>End of the black keys:</b> green = one key for all melodic sequencers; tap it (dim) and each has its own root and scale.</span></li>
         <li><span class="sw" style="background:#3ddc97"></span><span><b>Row 8:</b> the scale (hold Shift for 8 more). Tap the selected scale again to switch Live's Scale mode off (chromatic).</span></li>
       </ul>
     </div>
   </div>
-  <div class="note"><strong>Key changes carry your clips</strong>The key and scale are Live's, shared by all three melodic sequencers. Changing them here also moves the notes of the clip <b>playing</b> on each melodic sequencer's track. A new root moves every note by the nearest interval; a new scale moves notes by scale step, so the 3rd stays the 3rd. Live's Undo puts them back.</div>
+  <div class="note"><strong>One key, or one each</strong>By default the key and scale are Live's, shared by all the melodic sequencers. Tap the green pad at the end of the black keys and each melodic sequencer gets its <b>own root and scale</b>, saved with its track: a bass line in one key, a lead in another. Tap again to share one key. The default is <code>SHARED_KEY</code> in <code>Config.py</code>.</div>
+  <div class="note"><strong>Key changes carry your clips</strong>Changing the key here also moves the notes of the clip <b>playing</b> on each melodic sequencer's track that uses it (all of them when the key is shared, only this one's otherwise). A new root moves every note by the nearest interval; a new scale moves notes by scale step, so the 3rd stays the 3rd. Live's Undo puts them back.</div>
 </section>
 
 <!-- ================================================================== -->
@@ -1265,7 +1271,7 @@ launchpad('lp-melodic-velocity', {
     right: [['W', 'Pat'], ['W', 'Steps'], ['W', 'Set'], ['w', 'Vel'], ['W', 'Prob'], ['W', 'Mut']] },
 });
 launchpad('lp-melodic-settings', {
-  grid: ['eeeeeeee', 'eeeeeeee', '........', '........', 'llllwlll', '.BB.BBB.', 'bBBBBBB.', 'mMMMMMMM'],
+  grid: ['eeeeeeee', 'eeeeeeee', '........', '........', 'llllwlll', '.BB.BBBg', 'bBBBBBB.', 'mMMMMMMM'],
   labels: [[], [], [], [], [], ['', 'C#', 'D#', '', 'F#', 'G#', 'A#'], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], ['Maj', 'Min', 'Dor', 'Mix', 'Lyd', 'Phr', 'Loc', 'WT']],
   buttons: { top: [null, null, null, null, null, null, ['u', 'Custom']], right: [['W', 'Pat'], ['W', 'Steps'], ['w', 'Set']] },
 });
