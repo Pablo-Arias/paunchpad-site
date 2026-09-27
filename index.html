@@ -552,7 +552,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
 <pre class="config"><span class="k">START_TRACKS</span> = {<span class="s">'drum A'</span>: 1, <span class="s">'drum B'</span>: 2, <span class="s">'melodic A'</span>: 3, <span class="s">'melodic B'</span>: 4, <span class="s">'melodic C'</span>: 5}</pre>
     </li>
     <li><b>Tune LFO mode's swings</b> (at full depth; half depth swings half as far): volumes and sends in dB with a ceiling, every other control in % of its value.
-<pre class="config"><span class="k">LFO_DB_SWING</span> = <span class="n">10</span>         <span class="c"># volumes and sends: dB below and above the fader</span>
+<pre class="config"><span class="k">LFO_DB_SWING</span> = <span class="n">15</span>         <span class="c"># volumes and sends: dB below and above the fader</span>
 <span class="k">LFO_DB_CEILING</span> = <span class="n">-10</span>      <span class="c"># dB, the loudest an LFO makes a volume or send</span>
 <span class="k">LFO_SWING_PERCENT</span> = <span class="n">15</span>    <span class="c"># every other control: % of its value, below and above</span></pre>
     </li>
@@ -895,7 +895,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
         <li><span class="sw" style="background:#6ec6ff"></span><span><b>Row 5:</b> step rate.</span></li>
         <li><span class="sw" style="background:#2f6bff"></span><span><b>Rows 6–7:</b> the root note as a piano keyboard; the selected root is bright blue.</span></li>
         <li><span class="sw" style="background:#35d45a"></span><span><b>End of the black keys:</b> green = one key for all melodic sequencers; tap it (dim) and each has its own root and scale.</span></li>
-        <li><span class="sw" style="background:#3ddc97"></span><span><b>Row 8:</b> the scale (hold Shift for 8 more). Tap the selected scale again to switch Live's Scale mode off (chromatic).</span></li>
+        <li><span class="sw" style="background:#3ddc97"></span><span><b>Row 8:</b> the scale: 35 of them, 8 at a time, modes first. <b>◀ ▶</b> turn the page (Live's status bar lists the 8); Shift shows the next 8 while held. Tap the selected scale again to switch Live's Scale mode off (chromatic).</span></li>
       </ul>
     </div>
   </div>
@@ -1051,7 +1051,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
   <p>At full depth (half depth: half as far). All three numbers are yours to change in <code>Config.py</code>.</p>
   <table>
     <tr><th>Control</th><th>Swing</th></tr>
-    <tr><td>Volumes and sends</td><td class="wrap"><b>±10 dB</b> around the fader: at half depth, a fader at −20 dB goes from −25 to −15 dB. Never louder than <b>−10 dB</b>: near that ceiling, the upward half of the swing gets smaller, so it just reaches it.<br><code>LFO_DB_SWING</code>, <code>LFO_DB_CEILING</code></td></tr>
+    <tr><td>Volumes and sends</td><td class="wrap"><b>±15 dB</b> around the fader: at half depth, a fader at −20 dB goes from −27.5 to −12.5 dB. Never louder than <b>−10 dB</b>: near that ceiling, the upward half of the swing gets smaller, so it just reaches it.<br><code>LFO_DB_SWING</code>, <code>LFO_DB_CEILING</code></td></tr>
     <tr><td>Every other control</td><td class="wrap"><b>±15 %</b> of its current value.<br><code>LFO_SWING_PERCENT</code></td></tr>
   </table>
   <div class="note"><strong>One control, two hands</strong>Link a pad in Custom mode, and the same pad in LFO mode moves the same control: there's nothing else to set up. The Custom pad moves the fader, and the LFO keeps swinging around wherever you put it. To give an LFO pad a different control, link it in LFO mode (hold Quantise + pad).</div>
@@ -1274,7 +1274,7 @@ launchpad('lp-melodic-velocity', {
 });
 launchpad('lp-melodic-settings', {
   grid: ['uuuuuuuu', 'uuuuuuuu', '........', '........', 'llllwlll', '.BB.BBBg', 'bBBBBBB.', 'mMMMMMMM'],
-  labels: [[], [], [], [], [], ['', 'C#', 'D#', '', 'F#', 'G#', 'A#'], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], ['Maj', 'Min', 'Dor', 'Mix', 'Lyd', 'Phr', 'Loc', 'WT']],
+  labels: [[], [], [], [], [], ['', 'C#', 'D#', '', 'F#', 'G#', 'A#'], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], ['Maj', 'Min', 'Dor', 'Mix', 'Lyd', 'Phr', 'Loc', 'HMin']],
   buttons: { top: [null, null, null, null, null, null, ['u', 'Custom']], right: [['W', 'Pat'], ['W', 'Steps'], ['w', 'Set']] },
 });
 
