@@ -556,7 +556,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
 <span class="k">LFO_SWING_PERCENT</span> = <span class="n">15</span>    <span class="c"># every other control: % of its value, below and above</span></pre>
     </li>
     <li><b>Set the depth of the velocity accents</b> (drum: Velocity + drum pad; melodic: Velocity + page pad): how far a note's velocity moves up or down, in %, on the hardest hit.
-<pre class="config"><span class="k">VELOCITY_ACCENT_PERCENT</span> = <span class="n">10</span>   <span class="c"># +-10% at most</span></pre>
+<pre class="config"><span class="k">VELOCITY_ACCENT_PERCENT</span> = <span class="n">17</span>   <span class="c"># +-17% at most</span></pre>
     </li>
     <li><b>One key for all melodic sequencers, or each its own</b> (also switchable in Pattern Settings):
 <pre class="config"><span class="k">SHARED_KEY</span> = <span class="n">True</span>   <span class="c"># False: each melodic sequencer has its own root and scale</span></pre>
@@ -764,7 +764,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     </div>
   </div>
   <h3>Velocity accents</h3>
-  <p>To add life to a sound, <b>hold Velocity</b> (right column, button 4) and <b>tap a drum pad</b>. Every note of that sound in the pattern gets a new velocity: up on the accents, down on the weakest places, never more than <b>±10%</b> from the sound's usual velocity.</p>
+  <p>To add life to a sound, <b>hold Velocity</b> (right column, button 4) and <b>tap a drum pad</b>. Every note of that sound in the pattern gets a new velocity: up on the accents, down on the weakest places, never more than <b>±17%</b> from the sound's usual velocity.</p>
   <table>
     <tr><th>Gesture</th><th>Accents on</th><th>Feel</th></tr>
     <tr><td>Velocity + tap a pad</td><td class="wrap"><b>Off-beats</b>: the “and” between beats. The beats go down</td><td class="wrap">Swingy, pushing</td></tr>
@@ -774,10 +774,10 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <div class="accent-row"><span class="accent-name">Off-beats<small>one tap</small></span><div class="accent-bars"><span><i class="down" style="height:40%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:40%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:40%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:40%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:15%"></i></span></div></div>
     <div class="accent-row"><span class="accent-name">Down-beats<small>two taps</small></span><div class="accent-bars"><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="up" style="height:19%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="up" style="height:19%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="up" style="height:19%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:30%"></i></span></div></div>
     <div class="accent-row"><span class="accent-name"></span><div class="accent-labels"><b>1</b><b>·</b><b>&amp;</b><b>·</b><b>2</b><b>·</b><b>&amp;</b><b>·</b><b>3</b><b>·</b><b>&amp;</b><b>·</b><b>4</b><b>·</b><b>&amp;</b><b>·</b></div></div>
-    <div class="caption">One 4/4 bar of 16ths, hit as hard as possible: each note moves up (orange) or down (grey) from the sound's usual velocity (the line), by up to ±10%, with a random touch on top.</div>
+    <div class="caption">One 4/4 bar of 16ths, hit as hard as possible: each note moves up (orange) or down (grey) from the sound's usual velocity (the line), by up to ±17%, with a random touch on top.</div>
   </div>
   <div class="cards pairs">
-    <div class="card"><h4>Hit harder, go deeper</h4><p>How hard you tap sets the depth, on the same curve as the melodic sequencer's randomise: a soft tap moves notes by ±1% at most, a medium one by about ±5%, the hardest by up to <b>±10%</b>. Change the maximum with <code>VELOCITY_ACCENT_PERCENT</code> in <code>Config.py</code>.</p></div>
+    <div class="card"><h4>Hit harder, go deeper</h4><p>How hard you tap sets the depth, on the same curve as the melodic sequencer's randomise: a soft tap moves notes by ±2% at most, a medium one by about ±8%, the hardest by up to <b>±17%</b>. Change the maximum with <code>VELOCITY_ACCENT_PERCENT</code> in <code>Config.py</code>.</p></div>
     <div class="card"><h4>Tap again for another take</h4><p>Every tap re-draws the accents around the same usual velocity, so they never drift. Holding Velocity doesn't change the view you're in; tap Velocity on its own to open the Velocity view and see each note.</p></div>
   </div>
   <h3>Sound controls</h3>
@@ -805,7 +805,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <div><div id="lp-pattern-settings"></div><div class="caption">A 16-step loop at 1/16 (the selected rate is white).</div></div>
     <div>
       <ul class="legend">
-        <li><span class="sw" style="background:#ffb38a"></span><span><b>Rows 1–4, the loop length:</b> tap a step and the loop ends after it (1 to 32 steps). Peach steps are inside the loop.</span></li>
+        <li><span class="sw" style="background:#ff4d8d"></span><span><b>Rows 1–4, the loop length:</b> tap a step and the loop ends after it (1 to 32 steps). Steps inside the loop are in the track colour.</span></li>
         <li><span class="sw" style="background:#6ec6ff"></span><span><b>Row 5, the step rate:</b> 1/4, 1/4T, 1/8, 1/8T, 1/16, 1/16T, 1/32, 1/32T. Changing the rate keeps the number of steps.</span></li>
       </ul>
       <p style="font-size:15px;color:var(--muted)">At the default 1/16, 16 steps make 1 bar and 32 steps make 2 bars.</p>
@@ -877,7 +877,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
   </div>
   <table>
     <tr><th>Gesture</th><th>Does</th><th>Twice within 0.6 s</th></tr>
-    <tr><td>Hold Velocity + tap a page pad</td><td class="wrap"><b>Velocity accents</b>, as in the drum sequencer: the off-beats up, the beats down, <b>±10%</b> at most, deeper the harder you hit</td><td class="wrap">Accents on the down-beats instead</td></tr>
+    <tr><td>Hold Velocity + tap a page pad</td><td class="wrap"><b>Velocity accents</b>, as in the drum sequencer: the off-beats up, the beats down, <b>±17%</b> at most, deeper the harder you hit</td><td class="wrap">Accents on the down-beats instead</td></tr>
     <tr><td>Hold Probability + tap a page pad</td><td class="wrap">New chances for that page's notes. <b>The harder you hit, the higher the chances</b>: soft ≈ 10–40%, medium ≈ 40–70%, hard ≈ 75–100%, at random</td><td class="wrap">The down-beats keep a 100% chance: the groove stays, the rest thins</td></tr>
     <tr><td>Hold Mutation + tap a page pad</td><td class="wrap">Velocity ranges on the accents: the most on the off-beats (up to 100), little on the beats, deeper the harder you hit</td><td class="wrap">The most on the down-beats instead</td></tr>
     <tr><td>Clear + Velocity / Probability / Mutation</td><td class="wrap" colspan="2">Reset that value on the page shown: velocity 100, chance 100%, no range</td></tr>
@@ -889,7 +889,7 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <div><div id="lp-melodic-settings"></div><div class="caption">Rows 6–7 are a piano keyboard for the root note; row 8 the scale.</div></div>
     <div>
       <ul class="legend">
-        <li><span class="sw" style="background:#ffb38a"></span><span><b>Rows 1–4:</b> loop length, 1 to 32 steps.</span></li>
+        <li><span class="sw" style="background:#7b61ff"></span><span><b>Rows 1–4:</b> loop length, 1 to 32 steps, in the track colour.</span></li>
         <li><span class="sw" style="background:#6ec6ff"></span><span><b>Row 5:</b> step rate.</span></li>
         <li><span class="sw" style="background:#2f6bff"></span><span><b>Rows 6–7:</b> the root note as a piano keyboard; the selected root is bright blue.</span></li>
         <li><span class="sw" style="background:#35d45a"></span><span><b>End of the black keys:</b> green = one key for all melodic sequencers; tap it (dim) and each has its own root and scale.</span></li>
@@ -1252,7 +1252,7 @@ launchpad('lp-velocity', {
     right: [['W', 'Pat'], ['W', 'Steps'], ['W', 'Set'], ['w', 'Vel'], ['W', 'Prob'], ['W', 'Mut'], ['W', 'Micro'], ['R', 'Mute']] },
 });
 launchpad('lp-pattern-settings', {
-  grid: ['eeeeeeee', 'eeeeeeee', '........', '........', 'llllwlll', '........'].concat(DRUM_TOOLS.slice(2)),
+  grid: ['tttttttt', 'tttttttt', '........', '........', 'llllwlll', '........'].concat(DRUM_TOOLS.slice(2)),
   labels: [[], [], [], [], ['¼', '¼T', '⅛', '⅛T', '1⁄16', 'T', '1⁄32', 'T']],
   buttons: { top: [null, null, null, null, ['t', 'Note']],
     right: [['W', 'Pat'], ['W', 'Steps'], ['w', 'Set'], ['W', 'Vel'], ['W', 'Prob'], ['W', 'Mut'], ['W', 'Micro'], ['R', 'Mute']] },
@@ -1271,7 +1271,7 @@ launchpad('lp-melodic-velocity', {
     right: [['W', 'Pat'], ['W', 'Steps'], ['W', 'Set'], ['w', 'Vel'], ['W', 'Prob'], ['W', 'Mut']] },
 });
 launchpad('lp-melodic-settings', {
-  grid: ['eeeeeeee', 'eeeeeeee', '........', '........', 'llllwlll', '.BB.BBBg', 'bBBBBBB.', 'mMMMMMMM'],
+  grid: ['uuuuuuuu', 'uuuuuuuu', '........', '........', 'llllwlll', '.BB.BBBg', 'bBBBBBB.', 'mMMMMMMM'],
   labels: [[], [], [], [], [], ['', 'C#', 'D#', '', 'F#', 'G#', 'A#'], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], ['Maj', 'Min', 'Dor', 'Mix', 'Lyd', 'Phr', 'Loc', 'WT']],
   buttons: { top: [null, null, null, null, null, null, ['u', 'Custom']], right: [['W', 'Pat'], ['W', 'Steps'], ['w', 'Set']] },
 });
