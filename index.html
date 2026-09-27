@@ -265,9 +265,11 @@ footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
 .accent-row { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; align-items: end; margin-bottom: 8px; }
 .accent-name { font-size: 13.5px; font-weight: 600; line-height: 1.2; }
 .accent-name small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
-.accent-bars { display: flex; align-items: flex-end; gap: 3px; height: 64px; }
-.accent-bars i { flex: 1; background: var(--line); border-radius: 3px 3px 0 0; }
-.accent-bars i.hi { background: var(--accent); }
+.accent-bars { display: flex; gap: 3px; height: 72px; background: linear-gradient(var(--muted), var(--muted)) center / 100% 1px no-repeat; }
+.accent-bars span { flex: 1; position: relative; }
+.accent-bars i { position: absolute; left: 0; right: 0; border-radius: 3px; }
+.accent-bars i.up { bottom: 50%; background: var(--accent); }
+.accent-bars i.down { top: 50%; background: var(--line); }
 .accent-labels { display: flex; gap: 3px; }
 .accent-labels b { flex: 1; text-align: center; font-size: 11px; color: var(--muted); font-weight: 600; }
 .accents .caption { margin-top: 6px; }
@@ -553,6 +555,9 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
 <span class="k">LFO_DB_CEILING</span> = <span class="n">-10</span>      <span class="c"># dB, the loudest an LFO makes a volume or send</span>
 <span class="k">LFO_SWING_PERCENT</span> = <span class="n">15</span>    <span class="c"># every other control: % of its value, below and above</span></pre>
     </li>
+    <li><b>Set the depth of the drum velocity accents</b> (Velocity + drum pad): how far a note's velocity moves up or down, in %, on the hardest hit.
+<pre class="config"><span class="k">VELOCITY_ACCENT_PERCENT</span> = <span class="n">10</span>   <span class="c"># +-10% at most</span></pre>
+    </li>
     <li><b>Save, then reload the script:</b> in Live, <b>Settings → Link, Tempo &amp; MIDI</b>, set Control Surface to <b>None</b>, then back to <b>Paunchpad</b>.</li>
   </ol>
   <h3>The modes you can use</h3>
@@ -756,21 +761,21 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     </div>
   </div>
   <h3>Velocity accents</h3>
-  <p>To add life to a sound, <b>hold Velocity</b> (right column, button 4) and <b>tap a drum pad</b>. Every note of that sound in the pattern gets a new velocity, a little higher on the accents. Tap twice for the other kind of accent.</p>
+  <p>To add life to a sound, <b>hold Velocity</b> (right column, button 4) and <b>tap a drum pad</b>. Every note of that sound in the pattern gets a new velocity: up on the accents, down on the weakest places, never more than <b>±10%</b> from the sound's usual velocity.</p>
   <table>
     <tr><th>Gesture</th><th>Accents on</th><th>Feel</th></tr>
-    <tr><td>Velocity + tap a pad</td><td class="wrap"><b>Off-beats</b>: the “and” between beats</td><td class="wrap">Swingy, pushing: the off-beats lift the most, the other 16ths a little, the beats stay put</td></tr>
-    <tr><td>Velocity + tap it <b>twice</b></td><td class="wrap"><b>Down-beats</b>: every beat, beat 1 of the bar the strongest</td><td class="wrap">Grounded, driving: the beats lift, the rest a little</td></tr>
+    <tr><td>Velocity + tap a pad</td><td class="wrap"><b>Off-beats</b>: the “and” between beats. The beats go down</td><td class="wrap">Swingy, pushing</td></tr>
+    <tr><td>Velocity + tap it <b>twice</b> within 0.6 s</td><td class="wrap"><b>Down-beats</b>: every beat, beat 1 of the bar the most. The 16ths in between go down</td><td class="wrap">Grounded, driving</td></tr>
   </table>
   <div class="accents">
-    <div class="accent-row"><span class="accent-name">Off-beats<small>one tap</small></span><div class="accent-bars"><i class="" style="height:50%"></i><i class="" style="height:64%"></i><i class="hi" style="height:100%"></i><i class="" style="height:64%"></i><i class="" style="height:50%"></i><i class="" style="height:64%"></i><i class="hi" style="height:100%"></i><i class="" style="height:64%"></i><i class="" style="height:50%"></i><i class="" style="height:64%"></i><i class="hi" style="height:100%"></i><i class="" style="height:64%"></i><i class="" style="height:50%"></i><i class="" style="height:64%"></i><i class="hi" style="height:100%"></i><i class="" style="height:64%"></i></div></div>
-    <div class="accent-row"><span class="accent-name">Down-beats<small>two taps</small></span><div class="accent-bars"><i class="hi" style="height:100%"></i><i class="" style="height:56%"></i><i class="" style="height:64%"></i><i class="" style="height:56%"></i><i class="hi" style="height:83%"></i><i class="" style="height:56%"></i><i class="" style="height:64%"></i><i class="" style="height:56%"></i><i class="hi" style="height:83%"></i><i class="" style="height:56%"></i><i class="" style="height:64%"></i><i class="" style="height:56%"></i><i class="hi" style="height:83%"></i><i class="" style="height:56%"></i><i class="" style="height:64%"></i><i class="" style="height:56%"></i></div></div>
+    <div class="accent-row"><span class="accent-name">Off-beats<small>one tap</small></span><div class="accent-bars"><span><i class="down" style="height:40%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:40%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:40%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:40%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:15%"></i></span></div></div>
+    <div class="accent-row"><span class="accent-name">Down-beats<small>two taps</small></span><div class="accent-bars"><span><i class="up" style="height:50%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="up" style="height:19%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="up" style="height:19%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="up" style="height:19%"></i></span><span><i class="down" style="height:30%"></i></span><span><i class="down" style="height:15%"></i></span><span><i class="down" style="height:30%"></i></span></div></div>
     <div class="accent-row"><span class="accent-name"></span><div class="accent-labels"><b>1</b><b>·</b><b>&amp;</b><b>·</b><b>2</b><b>·</b><b>&amp;</b><b>·</b><b>3</b><b>·</b><b>&amp;</b><b>·</b><b>4</b><b>·</b><b>&amp;</b><b>·</b></div></div>
-    <div class="caption">One 4/4 bar of 16ths at full strength: how much each note can lift (with a random touch on top).</div>
+    <div class="caption">One 4/4 bar of 16ths, hit as hard as possible: each note moves up (orange) or down (grey) from the sound's usual velocity (the line), by up to ±10%, with a random touch on top.</div>
   </div>
   <div class="cards pairs">
-    <div class="card"><h4>Hit harder, more life</h4><p>How hard you tap sets the strength, on the same curve as the melodic sequencer's randomise: a soft tap changes notes by 2% at most, a medium one by about 10%, the hardest by up to <b>+20%</b>. It stays subtle.</p></div>
-    <div class="card"><h4>Tap again for another take</h4><p>Accents always start from the sound's usual velocity, so every tap re-draws them instead of piling them up. Live's status bar says what changed; the Velocity view shows each note.</p></div>
+    <div class="card"><h4>Hit harder, go deeper</h4><p>How hard you tap sets the depth, on the same curve as the melodic sequencer's randomise: a soft tap moves notes by ±1% at most, a medium one by about ±5%, the hardest by up to <b>±10%</b>. Change the maximum with <code>VELOCITY_ACCENT_PERCENT</code> in <code>Config.py</code>.</p></div>
+    <div class="card"><h4>Tap again for another take</h4><p>Every tap re-draws the accents around the same usual velocity, so they never drift. Live's status bar says what changed; the Velocity view shows each note.</p></div>
   </div>
   <h3>Sound controls</h3>
   <p>The blue (−) and red (+) pads move the selected sound's first four parameters: those of its own device, such as a Simpler's Filter Freq, Filter Res, Start and Length. <b>Tap</b> for a small nudge, <b>hold</b> to keep moving. The harder you hit, the faster it moves: about 25 s for the full range at the softest, 1.7 s at the hardest. Selecting a sound also shows its device in Live.</p>
