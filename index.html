@@ -559,6 +559,9 @@ pre.config .c { color: #7d7d8c; } pre.config .s { color: #ffb38a; } pre.config .
     <li><b>Set the depth of the velocity accents</b> (drum: Velocity + drum pad; melodic: Velocity + page pad): how far a note's velocity moves up or down, in %, on the hardest hit.
 <pre class="config"><span class="k">VELOCITY_ACCENT_PERCENT</span> = <span class="n">17</span>   <span class="c"># +-17% at most</span></pre>
     </li>
+    <li><b>Only the Launchpad's controls get recorded as automation.</b> Live's Automation Arm would also record the LFOs and the mouse, so Paunchpad keeps it off; the drum sequencer's automation recording (Shift + Record) doesn't need it.
+<pre class="config"><span class="k">KEEP_AUTOMATION_ARM_OFF</span> = <span class="n">True</span>   <span class="c"># False: Live's Automation Arm works as usual</span></pre>
+    </li>
     <li><b>One key for all melodic sequencers, or each its own</b> (also switchable in Pattern Settings):
 <pre class="config"><span class="k">SHARED_KEY</span> = <span class="n">True</span>   <span class="c"># False: each melodic sequencer has its own root and scale</span></pre>
     </li>
